@@ -1,0 +1,25 @@
+GET http://localhost:3000/coolerDate/123
+
+###
+
+POST http://localhost:3000/coolerDate
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "newcode01"
+}
+
+###
+
+POST http://localhost:3000/subscribers
+Content-Type: application/json
+
+{
+  "name": "rodonguyen",
+  "subscribedToChannel": "newcode01"
+}
+
+###
+
+GET http://localhost:3000/subscribers/15
