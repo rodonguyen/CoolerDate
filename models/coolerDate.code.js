@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const coolerDateSchema = new mongoose.Schema({
+const coolerDateCodeSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true
@@ -14,7 +14,7 @@ const coolerDateSchema = new mongoose.Schema({
     required: false,
     default: ''
   }},
-  {collection: 'codes'}
+  {collection: 'code'}
 )
 
-module.exports = mongoose.model('CoolerDate', coolerDateSchema)
+module.exports = mongoose.model('coolerdate_code', coolerDateCodeSchema)

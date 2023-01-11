@@ -1,0 +1,66 @@
+
+
+POST http://localhost:3001/coolerdate/profile/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "profileCode": "goodboy99999",
+  "content": "i'm goodddd"
+}
+
+###
+
+
+POST http://localhost:3001/coolerdate/profile/updateContent
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "profileCode": "badsobad",
+  "content": "<p>Who am I? I'm Rodo, a software engineer, QUT graduate.</p>"
+}
+
+###
+  # "content": "<p>Who am I? I'm Rodo, a software engineer, QUT graduate.</p>
+  #       <p>
+  #         What do I like? I like coding & technology, travelling, outdoor
+  #         activities: running, hiking, Vietnamese street coffee-ing, Asian food,
+  #         working-out, deep conversation, animals and plants, reading books, and
+  #         females.
+  #       </p>
+  #       <p>
+  #         How am I like? I'm 1.7m, 60kg, Asian born and raised, 5.5+in,
+  #         introvert. I'm trying to gain some weights though.
+  #       </p>
+  #       <p>
+  #         About what I do, check{\" \"}
+  #         <a href=\"/\" target=\"_blank\" rel=\"noopener noreferrer\">
+  #           the main page
+  #         </a>{\" \"}
+  #         and you can alway comeback here later with the exact link.
+  #       </p>"
+###
+
+
+DELETE http://localhost:3001/coolerdate/profile/deleteone
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "profileCode": "badsobad"
+}
+
+###
+
+
+
+POST http://localhost:3001/coolerdate/profile/find
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "profileCode": "goodboy"
+}
+
+###

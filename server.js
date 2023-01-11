@@ -29,7 +29,10 @@ app.get('/hi', function() {
   res.send('Hello World!')
 })
 
-const coolerDateRouter = require('./routes/coolerDate')
-app.use('/coolerDate', coolerDateRouter)
+const coolerDateCodeRouter = require('./routes/coolerDate.code')
+app.use('/coolerDate/code', coolerDateCodeRouter)
+
+const coolerDateProfileRouter = require('./routes/coolerDate.profile')
+app.use('/coolerDate/profile', coolerDateProfileRouter)
 
 app.listen(3001, () => console.log('Server Started'))     

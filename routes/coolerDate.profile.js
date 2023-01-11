@@ -1,20 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const CoolerDate = require("../models/coolerDate");
+const Profile = require("../models/coolerDate.profile");
 
-// Getting all coolerDate codes
-router.get("/", async (req, res) => {
-  try {
-    const codes = await CoolerDate.find();
-    res.json(codes);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
+// Getting content of an entry
 router.post('/find', getEntry, (req, res) => {
   if (res.found)  res.status(201).json({message: "Entry exists", found: true, entry: res.entry})
-  else  res.status(201).json({message: "Entry does not exist", found: false, request: req.body})
+  else            res.status(201).json({message: "Entry does not exist", found: false, request: req.body})
 })
 
 
@@ -25,25 +16,26 @@ router.post("/add", getEntry, async (req, res) => {
     return
   }
   try {
-    const newCode = await CoolerDate.create({
+    const newProfileCode = await Profile.create({
       username: req.body.username,
-      code: req.body.code,
+      profileCode: req.body.profileCode,
+      content: req.body.content
     });
-    res.status(201).json(newCode);
+    res.status(201).json(newProfileCode);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
 // Updating One
-router.post("/updateFirstAccessTime", async (req, res) => {
+router.post("/updateContent", async (req, res) => {
   try {
-    const addedTimeEntry = await CoolerDate.findOneAndUpdate(
+    const addedTimeEntry = await Profile.findOneAndUpdate(
       {
         username: req.body.username,
-        code: req.body.code,
+        profileCode: req.body.profileCode        
       },
-      { firstAccessTime: new Date()}
+      { content: req.body.content }
     );
     res.status(201).json(addedTimeEntry);
   } catch (err) {
@@ -73,9 +65,9 @@ async function getEntry(req, res, next) {
   let entry
 
   try {
-    entry = await CoolerDate.findOne({
+    entry = await Profile.findOne({
       username: req.body.username,
-      code: req.body.code
+      profileCode: req.body.profileCode
     })
   } catch (err) {
     return res.status(500).json({ message: err.message })

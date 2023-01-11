@@ -1,8 +1,16 @@
-GET http://localhost:3001/coolerDate/123
+
+POST http://localhost:3001/coolerdate/code/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "newcode999"
+}
 
 ###
 
-POST http://localhost:3001/coolerdate/add
+
+POST http://localhost:3001/coolerdate/code/updatefirstAccessTime
 Content-Type: application/json
 
 {
@@ -13,18 +21,7 @@ Content-Type: application/json
 ###
 
 
-POST http://localhost:3001/coolerdate/updatefirstAccessTime
-Content-Type: application/json
-
-{
-  "username": "rodonguyen",
-  "code": "newcode11"
-}
-
-###
-
-
-DELETE http://localhost:3001/coolerdate/deleteone
+DELETE http://localhost:3001/coolerdate/code/deleteone
 Content-Type: application/json
 
 {
@@ -36,7 +33,7 @@ Content-Type: application/json
 
 
 
-POST http://localhost:3001/coolerdate/find
+POST http://localhost:3001/coolerdate/code/find
 Content-Type: application/json
 
 {
