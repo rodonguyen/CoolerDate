@@ -25,7 +25,7 @@ db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 
 
-app.get('/hi', function(req, res) {
+app.get('/hi', function() {
   res.send('Hello World!')
 })
 
