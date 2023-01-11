@@ -13,7 +13,8 @@ const coolerDateSchema = new mongoose.Schema({
     type: Date,
     required: false,
     default: null
-  }
-})
+  }},
+  {collection: 'codes'}
+)
 
 module.exports = mongoose.model('CoolerDate', coolerDateSchema)

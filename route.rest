@@ -1,25 +1,24 @@
-GET http://localhost:3000/coolerDate/123
+GET http://localhost:3001/coolerDate/123
 
 ###
 
-POST http://localhost:3000/coolerDate
+POST http://localhost:3001/coolerdate/add
 Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode01"
+  "code": "newcode04"
 }
 
 ###
 
-POST http://localhost:3000/subscribers
+
+POST http://localhost:3001/coolerdate/updateFirstAccessTime
 Content-Type: application/json
 
 {
-  "name": "rodonguyen",
-  "subscribedToChannel": "newcode01"
+  "username": "rodonguyen",
+  "code": "newcode04",
 }
 
 ###
-
-GET http://localhost:3000/subscribers/15

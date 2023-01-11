@@ -3,20 +3,33 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-mongoose.set('strictQuery', true);
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+// const uri = process.env.DATABASE_URL;
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   console.log('Connected to Database');
+  
+//   // perform actions on the collection object
 
-const db = mongoose.connection
-db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('Connected to Database'))
+//   client.close();
+// });
 
 app.use(express.json())
 
-const subscribersRouter = require('./routes/subscribers')
-app.use('/subscribers', subscribersRouter) 
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
+const db = mongoose.connection
+db.useDb('coolerdate')
+db.on('error', (error) => console.error(error))
+db.once('open', () => console.log('Connected to Database'))
+
+
+app.get('/hi', function(req, res) {
+  res.send('Hello World!')
+})
 
 const coolerDateRouter = require('./routes/coolerDate')
 app.use('/coolerDate', coolerDateRouter)
 
-app.listen(3000, () => console.log('Server Started'))     
+app.listen(3001, () => console.log('Server Started'))     

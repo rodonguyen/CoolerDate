@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 
 // Creating new coolerDate code
-router.post('/', async (req, res) => {
+router.post('/add', async (req, res) => {
   console.log(req.body)
 
   try {
@@ -29,10 +29,37 @@ router.post('/', async (req, res) => {
   }
 })
  
+// Updating One
+router.post('/updateFirstAccessTime', checkUsernameCode, async (req, res) => {
+
+  res.entry.firstAccessTime = new Date()
+  try {
+    const updatedEntry = await res.entry.save()
+    res.json(updatedEntry)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
 
 
+async function checkUsernameCode(req, res, next) {
+  let entry
+  try {
+    entry = await CoolerDate.findOne({
+      username: req.body.username,
+      code: req.body.code,
+    })
+    // console.log(entry)
+    if (entry == null) {
+      return res.status(404).json({ message: 'Cannot find entry', entry: entry })
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message })
+  }
 
-
+  res.entry = entry
+  next()
+}
 
 
 
@@ -42,21 +69,21 @@ router.post('/', async (req, res) => {
 // })
 
 
-// // Updating One
-// router.patch('/:id', getSubscriber, async (req, res) => {
-//   if (req.body.name != null) {
-//     res.subscriber.name = req.body.name
-//   }
-//   if (req.body.subscribedToChannel != null) {
-//     res.subscriber.subscribedToChannel = req.body.subscribedToChannel
-//   }
-//   try {
-//     const updatedSubscriber = await res.subscriber.save()
-//     res.json(updatedSubscriber)
-//   } catch (err) {
-//     res.status(400).json({ message: err.message })
-//   }
-// })
+// Updating One
+router.patch('/:id', getSubscriber, async (req, res) => {
+  if (req.body.name != null) {
+    res.subscriber.name = req.body.name
+  }
+  if (req.body.subscribedToChannel != null) {
+    res.subscriber.subscribedToChannel = req.body.subscribedToChannel
+  }
+  try {
+    const updatedSubscriber = await res.subscriber.save()
+    res.json(updatedSubscriber)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
 
 // // Deleting One
 // router.delete('/:id', getSubscriber, async (req, res) => {
