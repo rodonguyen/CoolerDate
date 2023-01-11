@@ -10,7 +10,7 @@ const coolerDateSchema = new mongoose.Schema({
     required: true
   },
   firstAccessTime: {
-    type: String,
+    type: Date,
     required: false,
     default: ''
   }},
