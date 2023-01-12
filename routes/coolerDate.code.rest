@@ -1,4 +1,8 @@
 
+GET http://localhost:3001/hi
+
+###
+
 POST http://localhost:3001/coolerdate/code/add
 Content-Type: application/json
 
@@ -38,7 +42,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode11"
+  "code": "newcode999"
 }
 
 ###
