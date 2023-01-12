@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 
 
-POST http://localhost:3001/coolerdate/code/updatefirstAccessTime
+PATCH http://localhost:3001/coolerdate/code/pathFirstAccessTime
 Content-Type: application/json
 
 {

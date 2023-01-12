@@ -27,7 +27,7 @@ router.post("/add", getEntry, async (req, res) => {
 });
 
 // Updating One
-router.post("/updateFirstAccessTime", async (req, res) => {
+router.patch("/pathFirstAccessTime", async (req, res) => {
   try {
     const addedTimeEntry = await Code.findOneAndUpdate(
       {
