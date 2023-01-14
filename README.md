@@ -7,10 +7,11 @@ Deploy:
 - GCS: Dockerise and Deploy on GCS
 - Dockerise: https://youtu.be/JDUB9ZAjaJI 
 - Vercel: Simple https://www.youtube.com/watch?v=vCuf62T2snY
+- Vercel2: https://dev.to/hte305/deploy-express-js-app-to-vercel-38jb
 - Render.com: https://youtu.be/3BliDUq5vPc 
 - Railway, Render, Cyclic: https://youtu.be/MusIvEKjqsc
 
-Railway: limited hours in Free, Render: spin off when inactive,   
+Railway: limited hours in Free, Render: spin off when inactive, Cyclic does not work,
 
 ### Resources
 - https://mongoosejs.com/docs/tutorials/findoneandupdate.html
