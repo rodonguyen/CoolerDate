@@ -1,20 +1,27 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const coolerDateCodeSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true
+const coolerDateCodeSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+    },
+    code: {
+      type: String,
+      required: true,
+    },
+    profileCode: {
+      type: String,
+      required: true,
+      default: "neutral",
+    },
+    firstAccessTime: {
+      type: Date,
+      required: false,
+      default: "",
+    },
   },
-  code: {
-    type: String,
-    required: true
-  },
-  firstAccessTime: {
-    type: Date,
-    required: false,
-    default: ''
-  }},
-  {collection: 'code'}
-)
+  { collection: "code" }
+);
 
-module.exports = mongoose.model('coolerdate_code', coolerDateCodeSchema)
+module.exports = mongoose.model("coolerdate_code", coolerDateCodeSchema);

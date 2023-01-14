@@ -7,7 +7,7 @@ router.post("/find", getEntry, (req, res) => {
   if (res.found)
     res
       .status(201)
-      .json({ message: "Entry exists", found: true, entry: res.entry });
+      .json({ message: "/coolerDate/code/find --> Entry exists", found: true, entry: res.entry });
   else
     res
       .status(201)
@@ -21,13 +21,16 @@ router.post("/find", getEntry, (req, res) => {
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
   if (res.found) {
-    res.status(201).json({ message: "Entry exists, do nothing" });
+    res.status(201).json({ message: "/coolerDate/code/add --> Entry exists, do nothing" });
     return;
   }
   try {
+    // if (req.body.username && req.body.code && req.body.username) 
+    //   throw "Missing required property 'username'."
     const newCode = await Code.create({
       username: req.body.username,
       code: req.body.code,
+      profileCode: req.body.profileCode
     });
     res.status(201).json(newCode);
   } catch (err) {
@@ -46,7 +49,7 @@ router.patch("/patchFirstAccessTime", async (req, res) => {
       { firstAccessTime: new Date() }
     ).then((res) => {
       console.log(res)
-      if (res === null) return { message: "Entry does not exist, do nothing" };
+      if (res === null) return { message: "/coolerDate/code/patchFirstAccessTime --> Entry does not exist, do nothing" };
       return res
     });
     res.status(201).json(addedTimeEntry);
@@ -58,7 +61,7 @@ router.patch("/patchFirstAccessTime", async (req, res) => {
 // Deleting one
 router.delete("/deleteOne", getEntry, async (req, res) => {
   if (!res.found) {
-    res.status(201).json({ message: "Entry does not exist, do nothing" });
+    res.status(201).json({ message: "/coolerDate/code/deleteOne --> Entry does not exist, do nothing" });
     return;
   }
   try {

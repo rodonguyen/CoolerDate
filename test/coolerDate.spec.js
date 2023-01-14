@@ -6,7 +6,13 @@ describe("Test /coolerDate/code", () => {
   const mockEntry = {
     username: "rodonguyen",
     code: "newcode99",
+    profileCode: "neutral"
   };
+
+  const flawMockEntry = {
+    username: "rodonguyen",
+    code: "newcode99"
+  }
 
   describe("POST /find", () => {
     it("Response should include {found: false}", async () => {
@@ -30,6 +36,7 @@ describe("Test /coolerDate/code", () => {
       expect(actualResult).to.include({found: false})
     });
   });
+  
 
   describe("POST /add", () => {
     it("Response should have 'found' (Entry exists) or 'username' (Add entry) property", async () => {
@@ -77,6 +84,7 @@ describe("Test /coolerDate/code", () => {
     });
   });
 
+
   describe("POST /add", () => {
     it("Response should have 'found' property (Entry exists, added above)", async () => {
       const actualResult = await fetch(
@@ -94,11 +102,13 @@ describe("Test /coolerDate/code", () => {
         return res.json();
       });
 
-      // console.log('actualResult:', actualResult);  // For debugging
+      console.log('actualResult:', actualResult);  // For debugging
       expect(actualResult).to.have.property('message')
       // actualResult.should.have.status(201)
     });
   });
+
+
 
   describe("PATCH /patchFirstAccessTime", () => {
     it("Response should have 'username' property (Patch entry added above)", async () => {
