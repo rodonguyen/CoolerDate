@@ -2,6 +2,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const app = require("./app");
+const port = process.env.PORT || 3000
 
 // import dotenv from "dotenv";
 // import  { mongoose } from "mongoose";
@@ -24,4 +25,4 @@ db.useDb("coolerdate");
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
-app.listen(3001, () => console.log("Server Started"));
+app.listen(port, () => console.log("Server Started"));
