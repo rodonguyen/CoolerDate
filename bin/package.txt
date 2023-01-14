@@ -1,0 +1,2 @@
+    "start": "./node-modules/.bin/netlify-lambda serve src",
+    "build": "./node-modules/.bin/netlify-lambda build src",

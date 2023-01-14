@@ -25,8 +25,6 @@ router.post("/add", getEntry, async (req, res) => {
     return;
   }
   try {
-    // if (req.body.username && req.body.code && req.body.username) 
-    //   throw "Missing required property 'username'."
     const newCode = await Code.create({
       username: req.body.username,
       code: req.body.code,
