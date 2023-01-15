@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
 
-const rootURL = "http://localhost:3001/coolerdate/code";
+const rootURL = "http://localhost:3001/coolerdate/profile";
 
 describe("Test /coolerDate/code", () => {
   const mockEntry = {
