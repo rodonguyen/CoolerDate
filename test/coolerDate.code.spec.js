@@ -102,12 +102,33 @@ describe("Test /coolerDate/code", () => {
         return res.json();
       });
 
-      console.log('actualResult:', actualResult);  // For debugging
+      // console.log('actualResult:', actualResult);  // For debugging
       expect(actualResult).to.have.property('message')
       // actualResult.should.have.status(201)
     });
   });
 
+  describe("PATCH /patchProfileCode", () => {
+    it("Response should have new profileCode (Patch entry added above)", async () => {
+      const actualResult = await fetch(
+        `${rootURL}/patchFirstAccessTime`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mockEntry),
+        }
+      )
+      .then((res) => {
+        return res.json();
+      });
+
+      // console.log('actualResult:', actualResult);  // For debugging
+      expect(actualResult).to.include({profileCode: mockEntry.profileCode})
+    });
+  });
 
 
   describe("PATCH /patchFirstAccessTime", () => {

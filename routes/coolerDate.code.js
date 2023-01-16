@@ -61,7 +61,7 @@ const Code = require("../models/coolerDate.code");
  *                   type: string
  *                   example: neutral
  *       400:
- *         description: Invalid input, missing one of the required properties
+ *         description: Invalid input, missing required propertie(s)
  *         content:
  *           application/json:
  *             schema:
@@ -109,7 +109,6 @@ router.post("/add", getEntry, async (req, res) => {
   }
 });
 
-// Updating One
 router.patch("/patchFirstAccessTime", async (req, res) => {
   try {
     const addedTimeEntry = await Code.findOneAndUpdate(
@@ -124,6 +123,26 @@ router.patch("/patchFirstAccessTime", async (req, res) => {
       return res
     });
     res.status(201).json(addedTimeEntry);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+
+router.patch("/patchProfileCode", async (req, res) => {
+  try {
+    const patchProfileCode = await Code.findOneAndUpdate(
+      {
+        username: req.body.username,
+        code: req.body.code,
+      },
+      { profileCode: req.body.profileCode }
+    ).then((res) => {
+      console.log(res)
+      if (res === null) return { message: "/coolerDate/code/patchProfileCode --> Entry does not exist, do nothing" };
+      return res
+    });
+    res.status(201).json(patchProfileCode);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
