@@ -2,7 +2,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const app = require("./app");
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3001
 
 // import dotenv from "dotenv";
 // import  { mongoose } from "mongoose";

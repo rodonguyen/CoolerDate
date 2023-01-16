@@ -3,8 +3,47 @@ const express = require("express");
 const app = express();
 const parseUrl = require('body-parser')
 const path = require('path');
+const bodyParser = require("body-parser"),
+  swaggerJsdoc = require("swagger-jsdoc"),
+  swaggerUi = require("swagger-ui-express");
 
 app.use(express.json());
+
+
+const options = {
+  definition: {
+    openapi: "3.0.3",
+    info: {
+      title: "API Documentation with Swagger",
+      version: "0.1.0",
+      description:
+        "CRUD Cooler Date data in MongoDB",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Rodo",
+        url: "rodonguyen.dev",
+        email: "rodonguyendd@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3001",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
+
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
