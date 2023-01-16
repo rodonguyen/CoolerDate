@@ -30,8 +30,11 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3001",
+        url: "http://localhost:3001"
       },
+      {
+        url: "https://rodo-restapi-coolerdate.up.railway.app"
+      }
     ],
   },
   apis: ["./routes/*.js"],
