@@ -3,11 +3,13 @@ const express = require("express");
 const app = express();
 const parseUrl = require('body-parser')
 const path = require('path');
+const cors = require('cors')
 const bodyParser = require("body-parser"),
   swaggerJsdoc = require("swagger-jsdoc"),
   swaggerUi = require("swagger-ui-express");
 
 app.use(express.json());
+app.use(cors())
 
 
 const options = {

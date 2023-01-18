@@ -9,13 +9,23 @@ Content-Type: application/json
 {
   "username": "rodonguyen",
   "code": "newcode123",
-  "profileCode": "badboy"
+  "profileCode": "goodboy"
+}
+
+###
+
+POST http://localhost:3001/coolerdate/code/check
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "newcode123"
 }
 
 ###
 
 
-PATCH http://localhost:3001/coolerdate/code/patchFirstAccessTime
+PATCH http://localhost:3001/coolerdate/code/addFirstAccessTime
 Content-Type: application/json
 
 {
@@ -43,7 +53,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode999"
+  "code": "newcode123"
 }
 
 ###

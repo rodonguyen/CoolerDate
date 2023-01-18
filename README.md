@@ -29,6 +29,7 @@ eb --version  # Check
 - https://www.youtube.com/watch?v=fgTGADljAeg&list=PLqOHj6mtp1CL6JP6shrL-PHkgRItJXIpX&index=2
 - https://cloud.mongodb.com 
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses
+- https://swagger.io/docs/specification/basic-structure/
 
 
 

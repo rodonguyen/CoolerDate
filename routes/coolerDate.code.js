@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Code = require("../models/coolerDate.code");
+require("dotenv").config();
+const rootUrl = process.env.SERVER_URL
 
 /**
  * @swagger
@@ -91,6 +93,56 @@ router.post("/find", getEntry, (req, res) => {
       });
 });
 
+
+/**
+ * Check an entry 
+ * It must satisfy 2 things:
+ *    - It exist
+ *    - Its firstAccessTime is less than 24*7 hours old
+ * Finally pathFirstAccessTime and return true
+ * */ 
+router.post("/check", getEntry, (req, res) => {
+  if (!res.found) {
+    res
+    .status(201)
+    .json({ isValid: false })
+    return
+  }
+  // If the code has been used
+  if (res.entry.firstAccessTime) {
+    const startTime = new Date(time)
+    const now = Date.now()
+    const daysOfAge = (now - startTime) / 3600 / 24 / 7
+    console(daysOfAge)
+  }
+  // If the code exists but has not been used
+  if (!res.entry.firstAccessTime) {
+    const entry = {
+      username: req.body.username, 
+      code: req.body.code
+    }
+    const fullUrl = rootUrl + "coolerDate/code/addFirstAccessTime"
+    request({
+      url: fullUrl,
+      method: "POST",
+      json: true, 
+      body: entry
+    }, function (error, response, body){
+        console.log(response); 
+    });
+    // // addFirstAccessTime
+    // const addedResult = addFirstAccessTime(req.body.username, req.body.code)
+    //   .then((res) => {
+    //     console.log(res)
+    //   })
+    // console.log(addedResult)
+  }
+  res
+    .status(201)
+    .json({ isValid: true });
+});
+
+
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
   if (res.found) {
@@ -109,7 +161,7 @@ router.post("/add", getEntry, async (req, res) => {
   }
 });
 
-router.patch("/patchFirstAccessTime", async (req, res) => {
+router.patch("/addFirstAccessTime", async (req, res) => {
   try {
     const addedTimeEntry = await Code.findOneAndUpdate(
       {
@@ -119,12 +171,12 @@ router.patch("/patchFirstAccessTime", async (req, res) => {
       { firstAccessTime: new Date() }
     ).then((res) => {
       console.log(res)
-      if (res === null) return { message: "/coolerDate/code/patchFirstAccessTime --> Entry does not exist, do nothing" };
+      if (res === null) return { message: "/coolerDate/code/addFirstAccessTime --> Entry does not exist, do nothing" };
       return res
     });
     res.status(201).json(addedTimeEntry);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: err.message }); 
   }
 });
 
@@ -183,5 +235,33 @@ async function getEntry(req, res, next) {
   }
   next();
 }
+
+
+
+async function addFirstAccessTime(username, code){
+  entry = {
+    username: username,
+    code: code
+  }
+  
+  const actualResult = await fetch(
+    `${rootUrl}/addFirstAccessTime`,
+    {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      // Make sure to serialize your JSON body
+      body: JSON.stringify(entry),
+    }
+  )
+  .then((res) => {
+    return res.json();
+  });
+
+  return actualResult;
+}
+
 
 module.exports = router;

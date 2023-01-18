@@ -110,10 +110,10 @@
 
 
 
-//   describe("PATCH /patchFirstAccessTime", () => {
+//   describe("PATCH /addFirstAccessTime", () => {
 //     it("Response should have 'username' property (Patch entry added above)", async () => {
 //       const actualResult = await fetch(
-//         `${rootURL}/patchFirstAccessTime`,
+//         `${rootURL}/addFirstAccessTime`,
 //         {
 //           method: "PATCH",
 //           headers: {
@@ -155,10 +155,10 @@
 //   });
 
 
-//   describe("PATCH /patchFirstAccessTime", () => {
+//   describe("PATCH /addFirstAccessTime", () => {
 //     it("Response should have 'message' property (Entry not found)", async () => {
 //       const actualResult = await fetch(
-//         `${rootURL}/patchFirstAccessTime`,
+//         `${rootURL}/addFirstAccessTime`,
 //         {
 //           method: "PATCH",
 //           headers: {
