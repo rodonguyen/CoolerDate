@@ -3,6 +3,9 @@ const router = express.Router();
 const Code = require("../models/coolerDate.code");
 require("dotenv").config();
 const rootUrl = process.env.SERVER_URL
+const axios = require('axios');
+
+
 
 /**
  * @swagger
@@ -77,6 +80,23 @@ const rootUrl = process.env.SERVER_URL
  *
  */
 
+
+function send(){
+  const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
+  const entry = {
+    username: 'rodonguyen', 
+    code: 'newcode123'
+  }
+
+  axios.post(fullUrl, JSON.stringify(entry))
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => console.log(err));
+}
+
+
 // Finding an entry
 router.post("/find", getEntry, (req, res) => {
   if (res.found)
@@ -117,19 +137,22 @@ router.post("/check", getEntry, (req, res) => {
   }
   // If the code exists but has not been used
   if (!res.entry.firstAccessTime) {
-    const entry = {
-      username: req.body.username, 
-      code: req.body.code
-    }
-    const fullUrl = rootUrl + "coolerDate/code/addFirstAccessTime"
-    request({
-      url: fullUrl,
-      method: "POST",
-      json: true, 
-      body: entry
-    }, function (error, response, body){
-        console.log(response); 
-    });
+    send()
+
+    // const entry = {
+    //   username: req.body.username, 
+    //   code: req.body.code
+    // }
+    // const fullUrl = rootUrl + "coolerDate/code/addFirstAccessTime"
+    // request({
+    //   url: fullUrl,
+    //   method: "POST",
+    //   json: true, 
+    //   body: entry
+    // }, function (error, response, body){
+    //     console.log(response); 
+    // });
+
     // // addFirstAccessTime
     // const addedResult = addFirstAccessTime(req.body.username, req.body.code)
     //   .then((res) => {

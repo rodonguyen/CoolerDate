@@ -9,20 +9,23 @@ const { serialize } = require("bson");
 //   code: req.body.code
 // }
 
-const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
-const entry = {
-  username: 'rodonguyen', 
-  code: 'newcode123'
-}
+
 
 
 function send(){
+  const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
+  const entry = {
+    username: 'rodonguyen', 
+    code: 'newcode123'
+  }
+
   axios.post(fullUrl, JSON.stringify(entry))
     .then((res) => {
       console.log(res)
       return res
     })
     .catch((err) => console.log(err));
+}
 
   // var options = {
   //     uri: fullUrl,
@@ -36,7 +39,6 @@ function send(){
   //     console.log(error,response);
   //     return;
   // });
-}
 
 send()
 
