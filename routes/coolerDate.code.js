@@ -98,11 +98,13 @@ function send(){
 
 
 // Finding an entry
-router.post("/find", getEntry, (req, res) => {
+router.post("/queryOne", getEntry, (req, res) => {
   if (res.found)
     res
       .status(201)
-      .json({ message: "/coolerDate/code/find --> Entry exists", found: true, entry: res.entry });
+      .json({ message: "Entry exists, do nothing", 
+              found: true, 
+              entry: res.entry });
   else
     res
       .status(201)
@@ -121,55 +123,38 @@ router.post("/find", getEntry, (req, res) => {
  *    - Its firstAccessTime is less than 24*7 hours old
  * Finally pathFirstAccessTime and return true
  * */ 
-router.post("/check", getEntry, (req, res) => {
+router.post("/check", getEntry, async (req, res) => {
+  // Entry does not exist
   if (!res.found) {
-    res
-    .status(201)
-    .json({ isValid: false })
-    return
+    return res.status(201).json({ isValid: false })
   }
-  // If the code has been used
+  // If the code has been opened
   if (res.entry.firstAccessTime) {
-    const startTime = new Date(time)
+    const startTime = new Date(res.entry.firstAccessTime)
     const now = Date.now()
-    const daysOfAge = (now - startTime) / 3600 / 24 / 7
-    console(daysOfAge)
+    const daysOfAge = Math.abs((now - startTime.getTime())) / 3600 / 1000 / 24 / 7;
+    // console.log('now', now, 'startTime', startTime)
+    // console.log(daysOfAge)
+    if (daysOfAge > 7) return res.status(201).json({ isValid: false });
   }
+
+  const finalResponse = { isValid: true }
+
   // If the code exists but has not been used
   if (!res.entry.firstAccessTime) {
-    send()
-
-    // const entry = {
-    //   username: req.body.username, 
-    //   code: req.body.code
-    // }
-    // const fullUrl = rootUrl + "coolerDate/code/addFirstAccessTime"
-    // request({
-    //   url: fullUrl,
-    //   method: "POST",
-    //   json: true, 
-    //   body: entry
-    // }, function (error, response, body){
-    //     console.log(response); 
-    // });
-
-    // // addFirstAccessTime
-    // const addedResult = addFirstAccessTime(req.body.username, req.body.code)
-    //   .then((res) => {
-    //     console.log(res)
-    //   })
-    // console.log(addedResult)
+    console.log('Adding time...')
+    const addedTime = await addFirstAccessTime(req.body.username, req.body.code)
+    finalResponse.message = addedTime.message
   }
-  res
-    .status(201)
-    .json({ isValid: true });
+
+  res.status(201).json(finalResponse);
 });
 
 
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
   if (res.found) {
-    res.status(201).json({ message: "/coolerDate/code/add --> Entry exists, do nothing" });
+    res.status(201).json({ message: "Entry exists, do nothing" });
     return;
   }
   try {
@@ -186,23 +171,22 @@ router.post("/add", getEntry, async (req, res) => {
 
 router.patch("/addFirstAccessTime", async (req, res) => {
   try {
-    const addedTimeEntry = await Code.findOneAndUpdate(
-      {
-        username: req.body.username,
-        code: req.body.code,
-      },
-      { firstAccessTime: new Date() }
-    ).then((res) => {
-      console.log(res)
-      if (res === null) return { message: "/coolerDate/code/addFirstAccessTime --> Entry does not exist, do nothing" };
-      return res
-    });
-    res.status(201).json(addedTimeEntry);
+    const added = await addFirstAccessTime(req.body.username, req.body.code)
+    res.status(201).json(added);
   } catch (err) {
     res.status(400).json({ error: err.message }); 
   }
 });
 
+router.patch("/nullifyFirstAccessTime", async (req, res) => {
+  try {
+    const nullified = await nullifyFirstAccessTime(req.body.username, req.body.code)
+    console.log(nullified)
+    res.status(201).json(nullified);
+  } catch (err) {
+    res.status(400).json({ error: err.message }); 
+  }
+});
 
 router.patch("/patchProfileCode", async (req, res) => {
   try {
@@ -214,8 +198,8 @@ router.patch("/patchProfileCode", async (req, res) => {
       { profileCode: req.body.profileCode }
     ).then((res) => {
       console.log(res)
-      if (res === null) return { message: "/coolerDate/code/patchProfileCode --> Entry does not exist, do nothing" };
-      return res
+      if (res === null) return { message: "Entry does not exist, do nothing" };
+      return { message: "Patch new ProfileCode successfully" };
     });
     res.status(201).json(patchProfileCode);
   } catch (err) {
@@ -226,7 +210,7 @@ router.patch("/patchProfileCode", async (req, res) => {
 // Deleting one
 router.delete("/deleteOne", getEntry, async (req, res) => {
   if (!res.found) {
-    res.status(201).json({ message: "/coolerDate/code/deleteOne --> Entry does not exist, do nothing" });
+    res.status(201).json({ message: "Entry does not exist, do nothing" });
     return;
   }
   try {
@@ -260,31 +244,32 @@ async function getEntry(req, res, next) {
 }
 
 
+const addFirstAccessTime = async (username, code) => {
+  const response = await Code.findOneAndUpdate({
+      username: username,
+      code: code,
+    },
+    { firstAccessTime: new Date() })
+    .then((res) => {
+      if (res === null) return { message: "addFirstAccessTime --> Entry does not exist, do nothing"};
+      return {message: 'Add firstAccessTime successfully'}
 
-async function addFirstAccessTime(username, code){
-  entry = {
-    username: username,
-    code: code
-  }
-  
-  const actualResult = await fetch(
-    `${rootUrl}/addFirstAccessTime`,
-    {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      // Make sure to serialize your JSON body
-      body: JSON.stringify(entry),
-    }
-  )
-  .then((res) => {
-    return res.json();
-  });
+    })
+  return response
+};
 
-  return actualResult;
-}
+const nullifyFirstAccessTime = async (username, code) => {
 
+  const response = await Code.findOneAndUpdate({
+      username: username,
+      code: code,
+    },
+    { firstAccessTime: null })
+    .then((res) => {
+      if (res === null) return { message: "nullifyFirstAccessTime --> Entry does not exist, do nothing"};
+      return {message: 'Nullify firstAccessTime successfully'}
+    })
+  return response
+};
 
 module.exports = router;

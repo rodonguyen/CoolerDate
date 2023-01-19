@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode123",
+  "code": "newcode83",
   "profileCode": "goodboy"
 }
 
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode123"
+  "code": "newcode83"
 }
 
 ###
@@ -30,7 +30,17 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode99101"
+  "code": "newcode12"
+}
+###
+
+
+PATCH http://localhost:3001/coolerdate/code/nullifyFirstAccessTime
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "newcode12"
 }
 
 ###
@@ -53,7 +63,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode123"
+  "code": "newcode83"
 }
 
 ###
