@@ -1,11 +1,11 @@
 // import express from "express";
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const parseUrl = require('body-parser')
 const path = require('path');
 const cors = require('cors')
-const bodyParser = require("body-parser"),
-  swaggerJsdoc = require("swagger-jsdoc"),
+const swaggerJsdoc = require("swagger-jsdoc"),
   swaggerUi = require("swagger-ui-express");
 
 app.use(express.json());
@@ -31,12 +31,8 @@ const options = {
       },
     },
     servers: [
-      {
-        url: "http://localhost:3001"
-      },
-      {
-        url: "https://rodo-restapi-coolerdate.up.railway.app"
-      }
+      {url: "http://localhost:3001"},
+      {url: process.env.ONLINE_SERVER_URL}
     ],
   },
   apis: ["./routes/*.js"],
@@ -44,21 +40,20 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 app.use(
-  "/api-docs",
+  "/coolerdate/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(specs, { explorer: true })
 );
 
 
-app.get("/", function (req, res) {
-  res.send("Hello World!");
-});
-app.get("/hi", function (req, res) {
+app.get(["/", "/hi"], function (req, res) {
   res.send("Hello World!");
 });
 
 
 
+
+// Form use to add code from server (paused)
 let encodeUrl = parseUrl.urlencoded({ extended: false })
 
 app.get('/form', (req, res) => {
