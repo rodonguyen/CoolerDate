@@ -10,7 +10,7 @@ const coolerDateCodeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profileCode: {
+    profile: {
       type: String,
       required: true,
       default: "neutral",

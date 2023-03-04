@@ -6,13 +6,13 @@ describe("Test /coolerDate/code", () => {
   const mockEntry = {
     username: "rodonguyen",
     code: "newcode99",
-    profileCode: "neutral"
+    profile: "neutral"
   };
 
   const mockEntry02 = {
     username: "rodonguyen",
     code: "newcode99",
-    profileCode: "goodboy"
+    profile: "goodboy"
   }
 
 
@@ -168,10 +168,10 @@ describe("Test /coolerDate/code", () => {
       });
     });
   
-    describe("PATCH /patchProfileCode", () => {
-      it("Response should have new profileCode (Patch entry added above)", async () => {
+    describe("PATCH /patchProfile", () => {
+      it("Response should have new profile (Patch entry added above)", async () => {
         const actualResult = await fetch(
-          `${rootURL}/patchProfileCode`,
+          `${rootURL}/patchProfile`,
           {
             method: "PATCH",
             headers: {
@@ -184,7 +184,7 @@ describe("Test /coolerDate/code", () => {
         .then((res) => {return res.json();});
   
         // console.log('actualResult:', actualResult);  // For debugging
-        expect(actualResult).to.include({ message: "Patch new ProfileCode successfully" })
+        expect(actualResult).to.include({ message: "Patch new Profile successfully" })
       });
     });
   

@@ -5,12 +5,12 @@ const coolerDateProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  profileCode: {
+  profile: {
     type: String,
     required: true
   },
   content: {
-    type: JSON,
+    type: Array,
     required: true,
   }},
   {collection: 'profile'}

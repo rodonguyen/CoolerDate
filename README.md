@@ -23,12 +23,6 @@ RestAPI used to handle CoolerDate App's requests and interact with MongoDB accor
    ```
 
 
-### Next tasks
-- [x] (react) Hide server url
-- [ ] (react) Handle Profile Content response and render
-- [ ] (react) Create her form, send her info
-
-
 
 <!-- 
 
@@ -52,14 +46,6 @@ Deploy:
 - https://cloud.mongodb.com 
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#successful_responses
 - https://swagger.io/docs/specification/basic-structure/
-
-### Install EB CLI
-```
-pip install awsebcli --upgrade --user
-export PATH=$PATH:$HOME/.local/bin
-which eb      # Check
-eb --version  # Check 
-``` 
 
 
 -->

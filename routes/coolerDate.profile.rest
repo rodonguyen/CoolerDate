@@ -5,20 +5,20 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profileCode": "goodboy99999",
+  "profile": "goodboy99999",
   "content": "i'm goodddd"
 }
 
 ###
 
 
-POST http://localhost:3001/coolerdate/profile/updateContent
+POST http://localhost:3001/coolerdate/profile/add
 Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profileCode": "badsobad",
-  "content": "<p>Who am I? I'm Rodo, a software engineer, QUT graduate.</p>"
+  "profile": "neutral",
+  "content": ["p1", "p2", "p3 f?"]
 }
 
 ###
@@ -43,12 +43,12 @@ Content-Type: application/json
 ###
 
 
-DELETE http://localhost:3001/coolerdate/profile/deleteone
+DELETE http://localhost:3001/coolerdate/profile/deleteOne
 Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profileCode": "badsobad"
+  "profile": "neutral"
 }
 
 ###

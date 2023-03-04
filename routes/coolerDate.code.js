@@ -16,7 +16,7 @@ const axios = require('axios');
  *       required:
  *         - username
  *         - code
- *         - profileCode
+ *         - profile
  *       properties:
  *         username:
  *           type: string
@@ -24,16 +24,16 @@ const axios = require('axios');
  *         code:
  *           type: string
  *           description: code
- *         profileCode:
+ *         profile:
  *           type: string
- *           description: profileCode is used to link to profile schema
+ *           description: profile is used to link to profile schema
  *         firstAccessTime:
  *           type: string
  *           description: time of the moment user first entering the code on app
  *       example:
  *         username: rodonguyen
  *         code: youaregorgous
- *         profileCode: goodboy
+ *         profile: goodboy
  *         firstAccessTime: 2020-03-10T04:05:06.157Z
  *  
  * tags:
@@ -62,7 +62,7 @@ const axios = require('axios');
  *                 code:
  *                   type: string
  *                   example: youaregorgous
- *                 profileCode:
+ *                 profile:
  *                   type: string
  *                   example: neutral
  *       400:
@@ -74,7 +74,7 @@ const axios = require('axios');
  *                 username:
  *                   type: string
  *                   example: rodonguyen
- *                 profileCode:
+ *                 profile:
  *                   type: string
  *                   example: neutral
  *
@@ -121,7 +121,7 @@ router.post("/queryOne", getEntry, (req, res) => {
  * It must satisfy 2 things:
  *    - It exist
  *    - Its firstAccessTime is less than 24*7 hours old
- * Finally pathFirstAccessTime and return true
+ * If it does, addFirstAccessTime and return true
  * */ 
 router.post("/check", getEntry, async (req, res) => {
   // Entry does not exist
@@ -138,13 +138,13 @@ router.post("/check", getEntry, async (req, res) => {
     if (daysOfAge > 7) return res.status(201).json({ isValid: false });
   }
 
+  // Else, the code is valid
   const finalResponse = { isValid: true }
 
   // If the code exists but has not been used
   if (!res.entry.firstAccessTime) {
-    console.log('Adding time...')
-    const addedTime = await addFirstAccessTime(req.body.username, req.body.code)
-    finalResponse.message = addedTime.message
+    const response = await addFirstAccessTime(req.body.username, req.body.code)
+    finalResponse.message = response.message
   }
 
   res.status(201).json(finalResponse);
@@ -161,7 +161,7 @@ router.post("/add", getEntry, async (req, res) => {
     const newCode = await Code.create({
       username: req.body.username,
       code: req.body.code,
-      profileCode: req.body.profileCode
+      profile: req.body.profile
     });
     res.status(201).json(newCode);
   } catch (err) {
@@ -188,20 +188,20 @@ router.patch("/nullifyFirstAccessTime", async (req, res) => {
   }
 });
 
-router.patch("/patchProfileCode", async (req, res) => {
+router.patch("/patchProfile", async (req, res) => {
   try {
-    const patchProfileCode = await Code.findOneAndUpdate(
+    const patchProfile = await Code.findOneAndUpdate(
       {
         username: req.body.username,
         code: req.body.code,
       },
-      { profileCode: req.body.profileCode }
+      { profile: req.body.profile }
     ).then((res) => {
       console.log(res)
       if (res === null) return { message: "Entry does not exist, do nothing" };
-      return { message: "Patch new ProfileCode successfully" };
+      return { message: "Patch new Profile successfully" };
     });
-    res.status(201).json(patchProfileCode);
+    res.status(201).json(patchProfile);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -245,17 +245,21 @@ async function getEntry(req, res, next) {
 
 
 const addFirstAccessTime = async (username, code) => {
-  const response = await Code.findOneAndUpdate({
+  const response = await Code.findOneAndUpdate(
+    {
       username: username,
       code: code,
     },
-    { firstAccessTime: new Date() })
-    .then((res) => {
-      if (res === null) return { message: "addFirstAccessTime --> Entry does not exist, do nothing"};
-      return {message: 'Add firstAccessTime successfully'}
+    { firstAccessTime: new Date() }
+  ).then((res) => {
+    if (res === null)
+      return {
+        message: "addFirstAccessTime --> Entry does not exist, do nothing",
+      };
+    return { message: "Add firstAccessTime successfully" };
+  });
 
-    })
-  return response
+  return response;
 };
 
 const nullifyFirstAccessTime = async (username, code) => {

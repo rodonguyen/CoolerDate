@@ -12,20 +12,40 @@ router.post('/find', getEntry, (req, res) => {
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
   if (res.found) {
-    res.status(201).json({message: "Entry exists, do nothing"})
+    console.log('found', res.entry.content, 'req', req.body.content)
+    if (res.entry.content.toString() === req.body.content.toString()) {
+      res.status(201).json({message: 'Entry already exists, do nothing.'});
+      return
+    }
+    // Update the content of this (username, profile)
+    console.log('Update the content')
+    const updated = updateContent(req.body.username, req.body.profile, req.body.content)
+    res.status(201).json({...updated, message: 'Updated the content'})
     return
   }
+
+  // if entry does not exist, add it
   try {
-    const newProfileCode = await Profile.create({
+    const newProfile = await Profile.create({
       username: req.body.username,
-      profileCode: req.body.profileCode,
+      profile: req.body.profile,
       content: req.body.content
     });
-    res.status(201).json(newProfileCode);
+    res.status(201).json(newProfile);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
+
+const updateContent = async (username, profile, content) => {
+  const response = await Profile.findOneAndUpdate(
+    {
+      username: username,
+      profile: profile        
+    },
+    { content: content })
+  return response;
+}
 
 // Updating One
 router.post("/updateContent", async (req, res) => {
@@ -33,7 +53,7 @@ router.post("/updateContent", async (req, res) => {
     const addedTimeEntry = await Profile.findOneAndUpdate(
       {
         username: req.body.username,
-        profileCode: req.body.profileCode        
+        profile: req.body.profile        
       },
       { content: req.body.content }
     );
@@ -51,7 +71,7 @@ router.delete('/deleteOne', getEntry, async (req, res) => {
     return
   }
   try {
-    await res.entry.remove()
+    await res.entry.remove();
     res.json({ message: 'Deleted Entry', entry: res.entry })
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -67,7 +87,7 @@ async function getEntry(req, res, next) {
   try {
     entry = await Profile.findOne({
       username: req.body.username,
-      profileCode: req.body.profileCode
+      profile: req.body.profile
     })
   } catch (err) {
     return res.status(500).json({ message: err.message })
