@@ -1,180 +1,116 @@
-// const expect = require("chai").expect;
+const expect = require("chai").expect;
 
-// const rootURL = "http://localhost:3001/coolerdate/profile";
+const rootURL = "http://localhost:3001/coolerdate/profile";
 
-// describe("Test /coolerDate/code", () => {
-//   const mockEntry = {
-//     username: "rodonguyen",
-//     code: "newcode99",
-//     profileCode: "neutral"
-//   };
+describe("Test /coolerDate/profile", function(){
+   this.timeout(60000);
 
-//   const flawMockEntry = {
-//     username: "rodonguyen",
-//     code: "newcode99"
-//   }
+   const mockEntry01 = {
+      username: "rodonguyen",
+      profile: "p99997",
+      content: ["p1", "p2", "p3"]
+   };
+   const mockEntry02 = {
+      username: "rodonguyen",
+      profile: "p99997",
+      content: ["p1", "p2"]
+   };
 
-//   describe("POST /find", () => {
-//     it("Response should include {found: false}", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/find`,
-//         {
-//           method: "post",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           // Make sure to serialize your JSON body
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
+   describe("POST /add -- Add a new entry", () => {
+   it("Response should have username, profile, content", async () => {
+      const actualResult = await fetch(
+         `${rootURL}/add`,
+         {
+            method: "post",
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            // Make sure to serialize your JSON body
+            body: JSON.stringify(mockEntry01),
+         }
+      )
+      .then((res) => {
+        return res.json();
+      });
 
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.include({found: false})
-//     });
-//   });
+      // console.log('actualResult:', actualResult);  // For debugging
+      expect(actualResult).to.have.property('username')
+      expect(actualResult).to.have.property('profile')
+      expect(actualResult).to.have.property('content')
+    });
+  });
+
+
+  describe("POST /add -- Update the content", () => {
+   it("Response should include property 'message': 'Updated the content'", async () => {
+      const actualResult = await fetch(
+         `${rootURL}/add`,
+         {
+            method: "post",
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            // Make sure to serialize your JSON body
+            body: JSON.stringify(mockEntry02),
+         }
+      )
+      .then((res) => {
+        return res.json();
+      });
+
+      // console.log('actualResult:', actualResult);  // For debugging
+      expect(actualResult).to.include({message: "Updated the content"})
+    });
+  });
+
+  describe("POST /add -- Repeat mockEntry02 to test if it sees identical entries", () => {
+   it("Response should include property 'message': 'Entry already exists, do nothing.'", async () => {
+      const actualResult = await fetch(
+         `${rootURL}/add`,
+         {
+            method: "post",
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            // Make sure to serialize your JSON body
+            body: JSON.stringify(mockEntry02),
+         }
+      )
+      .then((res) => {
+        return res.json();
+      });
+
+      // console.log('actualResult:', actualResult);  // For debugging
+      expect(actualResult).to.include({message: "Entry already exists, do nothing."})
+    });
+  });
+
+  describe("DELETE /deleteOne -- Delete the entry before ending the test", () => {
+   it("Response should include property 'message': 'Deleted Entry'", async () => {
+      const actualResult = await fetch(
+         `${rootURL}/deleteOne`,
+         {
+            method: "delete",
+            headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+            },
+            // Make sure to serialize your JSON body
+            body: JSON.stringify(mockEntry01),
+         }
+      )
+      .then((res) => {
+        return res.json();
+      });
+
+      // console.log('actualResult:', actualResult);  // For debugging
+      expect(actualResult).to.include({message: "Deleted Entry"})
+    });
+  });
+})
+
+
   
-
-//   describe("POST /add", () => {
-//     it("Response should have 'found' (Entry exists) or 'username' (Add entry) property", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/add`,
-//         {
-//           method: "post",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.have.property('username')
-//       // actualResult.should.have.status(201)
-//     });
-//   });
-
-//   describe("POST /find", () => {
-//     it("Response should include {found: true}", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/find`,
-//         {
-//           method: "post",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           // Make sure to serialize your JSON body
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.include({found: true})
-//     });
-//   });
-
-
-//   describe("POST /add", () => {
-//     it("Response should have 'found' property (Entry exists, added above)", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/add`,
-//         {
-//           method: "post",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.have.property('message')
-//       // actualResult.should.have.status(201)
-//     });
-//   });
-
-
-
-//   describe("PATCH /addFirstAccessTime", () => {
-//     it("Response should have 'username' property (Patch entry added above)", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/addFirstAccessTime`,
-//         {
-//           method: "PATCH",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.have.property('username')
-//     });
-//   });
-
-//   describe("DELETE /deleteOne", () => {
-//     it("Response should have 'message' property", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/deleteOne`,
-//         {
-//           method: "delete",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.have.property('message')
-//     });
-//   });
-
-
-//   describe("PATCH /addFirstAccessTime", () => {
-//     it("Response should have 'message' property (Entry not found)", async () => {
-//       const actualResult = await fetch(
-//         `${rootURL}/addFirstAccessTime`,
-//         {
-//           method: "PATCH",
-//           headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(mockEntry),
-//         }
-//       )
-//       .then((res) => {
-//         return res.json();
-//       });
-
-//       // console.log('actualResult:', actualResult);  // For debugging
-//       expect(actualResult).to.have.property('message')
-//     });
-//   });
-
-// });

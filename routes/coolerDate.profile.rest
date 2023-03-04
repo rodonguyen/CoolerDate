@@ -17,8 +17,8 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profile": "neutral",
-  "content": ["p1", "p2", "p3 f?"]
+  "profile": "p1",
+  "content": ["p1", "p2", "p3?"]
 }
 
 ###
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profile": "neutral"
+  "profile": "p1"
 }
 
 ###

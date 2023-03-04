@@ -2,23 +2,27 @@ const expect = require("chai").expect;
 
 const rootURL = "http://localhost:3001/coolerdate/code";
 
-describe("Test /coolerDate/code", () => {
+describe("Test /coolerDate/code", function(){
+  this.timeout(60000);
+
   const mockEntry = {
     username: "rodonguyen",
-    code: "newcode99",
+    code: "c99997",
     profile: "neutral"
   };
 
   const mockEntry02 = {
     username: "rodonguyen",
-    code: "newcode99",
+    code: "c99997",
     profile: "goodboy"
   }
+
+  // before(() => console.log('*** top-level before()'));
 
 
   describe("Testing endpoints with unexisted entry", function() {
     describe("POST /queryOne", () => {
-      it("Response should include {found: false}", async () => {
+      it("Response should include {isValid: false}", async () => {
         const actualResult = await fetch(
           `${rootURL}/queryOne`,
           {
@@ -39,7 +43,7 @@ describe("Test /coolerDate/code", () => {
     });
     
     describe("POST /check", () => {
-      it("Response should have 'isValid': false (Entry does not exist)", async () => {
+      it("Response should include 'isValid': 'false' (Entry does not exist)", async () => {
         const actualResult = await fetch(
           `${rootURL}/check`,
           {
@@ -53,7 +57,8 @@ describe("Test /coolerDate/code", () => {
         )
         .then((res) => {return res.json();});
 
-        expect(actualResult).to.include({'isValid': false})
+        // console.log('actualResult:', actualResult);  // For debugging
+        expect(actualResult).to.include({isValid: false})
       });
     });
   })
@@ -110,7 +115,7 @@ describe("Test /coolerDate/code", () => {
     });
   
     describe("POST /check", () => {
-      it("Response should have 'isValid': true (Entry does not exist)", async () => {
+      it("Response should have 'isValid': true", async () => {
         const actualResult = await fetch(
           `${rootURL}/check`,
           {
