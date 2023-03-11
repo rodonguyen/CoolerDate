@@ -60,7 +60,18 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profileCode": "goodboy"
+  "profile": "goodboy"
+}
+
+
+###
+
+POST http://localhost:3001/coolerdate/profile/find
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "profile": "neutral"
 }
 
 ###
