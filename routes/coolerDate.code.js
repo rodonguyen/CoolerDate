@@ -139,7 +139,7 @@ router.post("/check", getEntry, async (req, res) => {
   }
 
   // Else, the code is valid
-  const finalResponse = { isValid: true }
+  const finalResponse = { isValid: true, entry: res.entry }
 
   // If the code exists but has not been used
   if (!res.entry.firstAccessTime) {
