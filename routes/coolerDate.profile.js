@@ -12,7 +12,7 @@ router.post('/find', getEntry, (req, res) => {
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
   if (res.found) {
-    console.log('found', res.entry.content, 'req', req.body.content)
+    // console.log('found', res.entry.content, '\nreq', req.body.content)
     if (res.entry.content.toString() === req.body.content.toString()) {
       res.status(201).json({message: 'Entry already exists, do nothing.'});
       return

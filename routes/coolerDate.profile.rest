@@ -5,8 +5,29 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
+  "profile": "goodboy",
+  "content": [
+    "Who am I? - I'm Rodo. I'm also a software engineer / QUT graduate.",
+    "What do I like? - I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, working-out, deep conversation, animals and plants, reading books.",
+    "How am I like? - I'm 1.7m, 60kg, Asian born and raised, 5.5+in, quite introvert.",
+    "Feel free to view other stuff in my website and you can alway comeback here later with the exact link."
+  ]
+}
+
+###
+
+POST http://localhost:3001/coolerdate/profile/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
   "profile": "goodboy99999",
-  "content": "i'm goodddd"
+  "content": [
+    "Who am I? I'm Rodo. I'm also a software engineer / QUT graduate.",
+    "What do I like? I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, working-out, deep conversation, animals and plants, reading books.",
+    "How am I like? I'm 1.7m, 60kg, Asian born and raised, 5.5+in, quite introvert.",
+    "Feel free to view other stuff in my website and you can alway comeback here later with the exact link."
+  ]
 }
 
 ###

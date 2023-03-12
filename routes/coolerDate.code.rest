@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "n1",
-  "profileCode": "neutral"
+  "code": "beach",
+  "profile": "goodboy"
 }
 
 ###
@@ -51,7 +51,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "newcode123"
+  "code": "beach"
 }
 
 ###
