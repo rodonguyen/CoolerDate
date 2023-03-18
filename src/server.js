@@ -23,9 +23,9 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.useDb("coolerdate");
 db.on("error", (error) => console.error(error));
-db.once("open", () => console.log("Connected to Database"));
+db.once("open", () => console.log("Connected to Database\n~~~"));
 
-app.listen(port, () => console.log("Server Started"));
+app.listen(port, () => console.log("~~~\nServer Started"));
 
 
 

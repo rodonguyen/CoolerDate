@@ -81,24 +81,11 @@ const axios = require('axios');
  */
 
 
-function send(){
-  const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
-  const entry = {
-    username: 'rodonguyen', 
-    code: 'newcode123'
-  }
-
-  axios.post(fullUrl, JSON.stringify(entry))
-    .then((res) => {
-      console.log(res)
-      return res
-    })
-    .catch((err) => console.log(err));
-}
-
 
 // Finding an entry
 router.post("/queryOne", getEntry, (req, res) => {
+  console.log('/queryOne ===>', req.body);
+
   if (res.found)
     res
       .status(201)
@@ -124,6 +111,8 @@ router.post("/queryOne", getEntry, (req, res) => {
  * If it does, addFirstAccessTime and return true
  * */ 
 router.post("/check", getEntry, async (req, res) => {
+  console.log('/check ===>', req.body);
+
   // Entry does not exist
   if (!res.found) {
     return res.status(201).json({ isValid: false })
@@ -153,6 +142,8 @@ router.post("/check", getEntry, async (req, res) => {
 
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
+  console.log('/add ===>', req.body);
+  
   if (res.found) {
     res.status(201).json({ message: "Entry exists, do nothing" });
     return;
@@ -170,6 +161,8 @@ router.post("/add", getEntry, async (req, res) => {
 });
 
 router.patch("/addFirstAccessTime", async (req, res) => {
+  console.log('/addFirstAccessTime ===>', req.body);
+
   try {
     const added = await addFirstAccessTime(req.body.username, req.body.code)
     res.status(201).json(added);
@@ -179,6 +172,8 @@ router.patch("/addFirstAccessTime", async (req, res) => {
 });
 
 router.patch("/nullifyFirstAccessTime", async (req, res) => {
+  console.log('/nullifyFirstAccessTime ===>', req.body);
+
   try {
     const nullified = await nullifyFirstAccessTime(req.body.username, req.body.code)
     console.log(nullified)
@@ -189,6 +184,8 @@ router.patch("/nullifyFirstAccessTime", async (req, res) => {
 });
 
 router.patch("/patchProfile", async (req, res) => {
+  console.log('/patchProfile ===>', req.body);
+
   try {
     const patchProfile = await Code.findOneAndUpdate(
       {
@@ -209,6 +206,8 @@ router.patch("/patchProfile", async (req, res) => {
 
 // Deleting one
 router.delete("/deleteOne", getEntry, async (req, res) => {
+  console.log('/deleteOne ===>', req.body);
+
   if (!res.found) {
     res.status(201).json({ message: "Entry does not exist, do nothing" });
     return;
@@ -275,5 +274,22 @@ const nullifyFirstAccessTime = async (username, code) => {
     })
   return response
 };
+
+
+
+// function send(){
+//   const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
+//   const entry = {
+//     username: 'rodonguyen', 
+//     code: 'newcode123'
+//   }
+
+//   axios.post(fullUrl, JSON.stringify(entry))
+//     .then((res) => {
+//       console.log(res)
+//       return res
+//     })
+//     .catch((err) => console.log(err));
+// }
 
 module.exports = router;
