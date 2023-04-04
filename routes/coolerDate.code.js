@@ -121,9 +121,9 @@ router.post("/check", getEntry, async (req, res) => {
   if (res.entry.firstAccessTime) {
     const startTime = new Date(res.entry.firstAccessTime)
     const now = Date.now()
-    const daysOfAge = Math.abs((now - startTime.getTime())) / 3600 / 1000 / 24 / 7;
-    // console.log('now', now, 'startTime', startTime)
-    // console.log(daysOfAge)
+    const daysOfAge = Math.abs((now - startTime.getTime())) / 3600 / 24 / 1000;
+    console.log('now', now, 'startTime', startTime.getTime())
+    console.log(daysOfAge)
     if (daysOfAge > 7) return res.status(201).json({ isValid: false });
   }
 
