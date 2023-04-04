@@ -12,19 +12,20 @@ const coolerDateCodeSchema = new mongoose.Schema(
     },
     profile: {
       type: String,
-      required: true,
       default: "neutral",
     },
     firstAccessTime: {
       type: Date,
-      required: false,
       default: "",
     },
-    numberOfClickingSubmitTimes: {
+    submitted: {
+      type: Boolean,
+      default: false,
+    },
+    hoursTookToSubmit: {
       type: Number,
-      required: false,
-      default: 0,
-    }
+      default: 999,
+    },
   },
   { collection: "code" }
 );

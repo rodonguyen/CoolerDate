@@ -10,10 +10,6 @@ const coolerDateRespondentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    hoursTookToSubmit: {
-      type: Number,
-      required: true,
-    },
     // The rest is respondent information
     name: {
       type: String,
