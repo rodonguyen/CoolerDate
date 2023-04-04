@@ -12,7 +12,7 @@ const coolerDateCodeSchema = new mongoose.Schema(
     },
     profile: {
       type: String,
-      default: "neutral",
+      default: "default",
     },
     firstAccessTime: {
       type: Date,

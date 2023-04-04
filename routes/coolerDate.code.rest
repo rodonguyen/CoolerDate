@@ -8,8 +8,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "beach",
-  "profile": "goodboy"
+  "code": "beach"
 }
 
 ###
@@ -52,6 +51,17 @@ Content-Type: application/json
 {
   "username": "rodonguyen",
   "code": "beach"
+}
+
+###
+
+
+DELETE http://localhost:3001/coolerdate/code/deleteone
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "n4"
 }
 
 ###
