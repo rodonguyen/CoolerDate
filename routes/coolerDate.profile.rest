@@ -5,14 +5,14 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profile": "goodboy",
+  "profile": "neutral",
   "content": [
     "Hi there 👋🏽, my name is Rodo. I'm also a software engineer / QUT graduate.",
-    "My personalities? - I'm funny and outgoing, resourceful,",
-    "What do I like? - I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, bubble tea, films but not DC tho, working-out, deep conversation, animals and plants, reading books.",
-    "What do I like to do with my girlfriend besides what I already like? - Spending quality time together of course, watching films in bed, hugging and cuddling a lot, lying under the sky, travelling, hiking... I also don't mind kissing in public.",
+    "My personalities? - I'm funny and outgoing, resourceful, creative, logical",
+    "What do I like? - I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, bubble tea, films, working-out, deep conversation, animals and plants, reading books.",
+    "What do I like to do with my girlfriend besides what I already like? - Spending quality time together of course, being alone together, watching films in bed, hugging and cuddling, lying under the sky, travelling, hiking, massaging my girlfriend, (I also don't mind) kissing in public.",
     "How am I like? - I'm 1.7m, 60kg, Asian born and raised, 5.5+in, introvert but also depending on who I'm talking to",
-    "Feel free to view other stuff in my website and you can alway comeback here later with the exact link."
+    "Feel free to view other things in my website, you can alway comeback here with the exact link."
   ]
 }
 

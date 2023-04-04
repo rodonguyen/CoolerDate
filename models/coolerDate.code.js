@@ -20,6 +20,11 @@ const coolerDateCodeSchema = new mongoose.Schema(
       required: false,
       default: "",
     },
+    numberOfClickingSubmitTimes: {
+      type: Number,
+      required: false,
+      default: 0,
+    }
   },
   { collection: "code" }
 );
