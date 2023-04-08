@@ -29,15 +29,15 @@ const coolerDateRespondentSchema = new mongoose.Schema(
     },
     place: {
       type: String,
-      required: 'null',
+      default: 'null',
     },
     dressing: {
       type: String,
-      required: 'null',
+      default: 'null',
     },
     boyfriend: {
       type: String,
-      required: 'null',
+      default: 'null',
     },
   },
   { collection: "respondent" }
