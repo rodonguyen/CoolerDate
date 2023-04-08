@@ -122,15 +122,15 @@ router.post("/check", getEntry, async (req, res) => {
     const startTime = new Date(res.entry.firstAccessTime)
     const now = Date.now()
     const daysOfAge = Math.abs((now - startTime.getTime())) / 3600 / 24 / 1000;
-    console.log('now', now, 'startTime', startTime.getTime())
-    console.log(daysOfAge)
+    // console.log('now', now, 'startTime', startTime.getTime())
+    // console.log(daysOfAge)
     if (daysOfAge > 7) return res.status(201).json({ isValid: false });
   }
 
   // Else, the code is valid
   const finalResponse = { isValid: true, entry: res.entry }
 
-  // If the code exists but has not been used
+  // If the code is opened for the first time
   if (!res.entry.firstAccessTime) {
     const response = await addFirstAccessTime(req.body.username, req.body.code)
     finalResponse.message = response.message
@@ -142,7 +142,7 @@ router.post("/check", getEntry, async (req, res) => {
 
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
-  console.log('/add ===>', req.body);
+  console.log('/code/add ===>', req.body);
   
   if (res.found) {
     res.status(201).json({ message: "Entry exists, do nothing" });
@@ -220,6 +220,11 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
   }
 });
 
+
+// ***********************************************************
+// **               MIDDLEMAN FUNCTIONS                     **
+// ***********************************************************
+
 async function getEntry(req, res, next) {
   let entry;
 
@@ -242,6 +247,10 @@ async function getEntry(req, res, next) {
   next();
 }
 
+
+// ***********************************************************
+// **               AUXILIARY FUNCTIONS                     **
+// ***********************************************************
 
 const addFirstAccessTime = async (username, code) => {
   const response = await Code.findOneAndUpdate(

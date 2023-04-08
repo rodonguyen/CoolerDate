@@ -24,7 +24,7 @@ const coolerDateCodeSchema = new mongoose.Schema(
     },
     hoursTookToSubmit: {
       type: Number,
-      default: 999,
+      default: -1,
     },
   },
   { collection: "code" }

@@ -19,7 +19,7 @@ const options = {
       title: "API Documentation with Swagger",
       version: "0.1.0",
       description:
-        "CRUD Cooler Date data in MongoDB",
+        "CoolerDate Database",
       license: {
         name: "MIT",
         url: "https://spdx.org/licenses/MIT.html",
@@ -53,25 +53,26 @@ app.get(["/", "/hi"], function (req, res) {
 
 
 
-// Form use to add code from server (paused)
-let encodeUrl = parseUrl.urlencoded({ extended: false })
+// // Form use to add code from server (paused)
+// let encodeUrl = parseUrl.urlencoded({ extended: false })
 
-app.get('/form', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', "form.html"));
-})
+// app.get('/form', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../public', "form.html"));
+// })
 
-app.post('/form', encodeUrl, (req, res) => {
-  res.send({'Form request': req.body})
-})
-
+// app.post('/form', encodeUrl, (req, res) => {
+//   res.send({'Form request': req.body})
+// })
 
 
 
 // Endpoints to interact with MongoDB 
 const coolerDateCodeRouter = require("../routes/coolerDate.code");
-app.use("/coolerDate/code", coolerDateCodeRouter);
-
 const coolerDateProfileRouter = require("../routes/coolerDate.profile");
-app.use("/coolerDate/profile", coolerDateProfileRouter);
+const coolerDateRespondentRouter = require("../routes/coolerDate.respondent");
 
-module.exports =  app;    
+app.use("/coolerDate/code", coolerDateCodeRouter);
+app.use("/coolerDate/profile", coolerDateProfileRouter);
+app.use("/coolerDate/respondent", coolerDateRespondentRouter);
+
+module.exports =  app;

@@ -1,0 +1,45 @@
+
+
+POST http://localhost:3001/coolerdate/respondent/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "beach",
+  "name": "name111",
+  "contact": "contact111",
+  "bio": "bio111",
+  "ifact": "fact111",
+  "place": "place1111",
+  "dressing": "dressing111",
+  "boyfriend": "boyfriend111"
+}
+
+###
+
+POST http://localhost:3001/coolerdate/respondent/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "n1",
+  "name": "name111",
+  "contact": "contact111",
+  "bio": "bio111"
+}
+
+###
+###
+###
+
+DELETE http://localhost:3001/coolerdate/profile/deleteOne
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "n1"
+
+}
+
+###
+

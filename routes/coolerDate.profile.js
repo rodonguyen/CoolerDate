@@ -13,15 +13,17 @@ router.post('/find', getEntry, (req, res) => {
 
 // Creating new coolerDate code
 router.post("/add", getEntry, async (req, res) => {
-  console.log('/add ===>', req.body);
+  console.log('/profile/add ===>', req.body);
     
   if (res.found) {
     // console.log('found', res.entry.content, '\nreq', req.body.content)
+
+    // If content are identical, do nothing
     if (res.entry.content.toString() === req.body.content.toString()) {
       res.status(201).json({message: 'Entry already exists, do nothing.'});
       return
     }
-    // Update the content of this (username, profile)
+    // Else, update the content of this (username, profile)
     console.log('Update the content')
     const updated = updateContent(req.body.username, req.body.profile, req.body.content)
     res.status(201).json({...updated, message: 'Updated the content'})
@@ -78,6 +80,9 @@ router.delete('/deleteOne', getEntry, async (req, res) => {
 })
 
 
+// ***********************************************************
+// **               AUXILIARY FUNCTIONS                     **
+// ***********************************************************
 
 async function updateContent(username, profile, content) {
   const response = await Profile.findOneAndUpdate(
@@ -88,6 +93,11 @@ async function updateContent(username, profile, content) {
     { content: content })
   return response;
 }
+
+
+// ***********************************************************
+// **               MIDDLEMAN FUNCTIONS                     **
+// ***********************************************************
 
 async function getEntry(req, res, next) {
   let entry
@@ -111,7 +121,6 @@ async function getEntry(req, res, next) {
   }
   next()
 }
-
 
 
 module.exports = router;
