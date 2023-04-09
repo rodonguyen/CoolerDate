@@ -151,6 +151,10 @@ router.post("/check", getEntry, async (req, res) => {
 router.post("/add", getEntry, async (req, res) => {
   console.log('/code/add ===>', req.body);
   
+  // TODO: add middleman function/code to 
+  // add the entry ONLY IF the profile exist
+
+
   if (res.found) {
     res.status(201).json({ message: "Entry exists, do nothing" });
     return;
@@ -232,6 +236,7 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
 // **               MIDDLEMAN FUNCTIONS                     **
 // ***********************************************************
 
+/** Return the entry's data if it exists in the database already */
 async function getEntry(req, res, next) {
   let entry;
 

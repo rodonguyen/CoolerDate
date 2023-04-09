@@ -93,6 +93,7 @@ async function addHoursTookToSubmit(username, code) {
 // **               MIDDLEMAN FUNCTIONS                     **
 // ***********************************************************
 
+/** Return the entry's data if it exists in the database already */
 async function getEntry(req, res, next) {
   let entry;
 

@@ -5,7 +5,7 @@ const coolerDateProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  profile: {
+  profile: {    // Note: Must have 1 profile = 'default'
     type: String,
     required: true
   },
