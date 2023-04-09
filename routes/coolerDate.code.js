@@ -107,7 +107,8 @@ router.post("/queryOne", getEntry, (req, res) => {
  * Check an entry 
  * It must satisfy 2 things:
  *    - It exist
- *    - Its firstAccessTime is less than 24*7 hours old
+ *    - Its firstAccessTime is less than 3 days old
+ *    - hoursTookToSubmit === -1
  * If it does, addFirstAccessTime and return true
  * */ 
 router.post("/check", getEntry, async (req, res) => {
@@ -117,20 +118,26 @@ router.post("/check", getEntry, async (req, res) => {
   if (!res.found) {
     return res.status(201).json({ isValid: false })
   }
-  // If the code has been opened
+
+  // Check expiration status if the code has been accessed. 
+  // Return false if daysSinceFirstAccess > 7 days.
   if (res.entry.firstAccessTime) {
     const startTime = new Date(res.entry.firstAccessTime)
     const now = Date.now()
-    const daysOfAge = Math.abs((now - startTime.getTime())) / 3600 / 24 / 1000;
-    // console.log('now', now, 'startTime', startTime.getTime())
-    // console.log(daysOfAge)
-    if (daysOfAge > 7) return res.status(201).json({ isValid: false });
+    const daysSinceFirstAccess = Math.abs((now - startTime.getTime())) / 3600 / 24 / 1000;
+    if (daysSinceFirstAccess > 3) return res.status(201).json({ isValid: false });
+  }
+
+  // Check if the code is used. Return false if hoursTookToSubmit is >= 0. 
+  // FYI, default value is -1, which means unused.
+  if (res.entry.hoursTookToSubmit !== -1) {
+    return res.status(201).json({ isValid: false });
   }
 
   // Else, the code is valid
   const finalResponse = { isValid: true, entry: res.entry }
 
-  // If the code is opened for the first time
+  // Add firstAccessTime if the code is opened for the first time
   if (!res.entry.firstAccessTime) {
     const response = await addFirstAccessTime(req.body.username, req.body.code)
     finalResponse.message = response.message

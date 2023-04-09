@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profile": "neutral",
+  "profile": "default",
   "content": [
     "Hi there 👋🏽, my name is Rodo. I'm also a software engineer / QUT graduate.",
     "My personalities? - I'm funny and outgoing, resourceful, creative, logical",

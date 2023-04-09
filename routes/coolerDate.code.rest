@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "beach"
+  "code": "n3"
 }
 
 ###

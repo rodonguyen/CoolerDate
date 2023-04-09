@@ -18,10 +18,6 @@ const coolerDateCodeSchema = new mongoose.Schema(
       type: Date,
       default: "",
     },
-    submitted: {
-      type: Boolean,
-      default: false,
-    },
     hoursTookToSubmit: {
       type: Number,
       default: -1,
