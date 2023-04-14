@@ -1,8 +1,16 @@
-# RestAPI_Project
+# CoolerDate
 
-RestAPI used to handle CoolerDate App's requests and interact with MongoDB accordingly
+### A full-stack application built for Asking someone out for a date. 
+### Simpler, Easier and More Special process!
+### Make the person being asked feel valued. Just give the them a *customised, unique and exclusive* invitation code (one person per code) to access your profile, get to know you and response later. That code expires after 3 days since they first open it. 
 
-# Getting Started
+# Server
+
+Consists of RestAPI endpoints that the Front-End use to interact with MongoDB.  
+Built with: ExpressJS, Axios, Mongoose, Swagger-jsdoc.  
+Tests written with: Chai.
+
+### Getting Started
 
 - Start the server in dev mode (with nodemon):   
    ```
@@ -17,11 +25,15 @@ RestAPI used to handle CoolerDate App's requests and interact with MongoDB accor
    npm run test
    ```
 
-- Once the server is up and running, interactive Swagger Documentation can be found in 
+### Documentation
+Once the server is up and running (by entering `npm run dev`), interactive Swagger Documentation can be found in 
    ```
    http://127.0.0.1:3001/coolerdate/api-docs
    ```
 
+# Front-End
+
+It's being migrated to an independent repository. For the time being, you can access the code at [this link](https://github.com/rodonguyen/my_website/blob/master/src/pages/DateMe.js).
 
 
 <!-- 
