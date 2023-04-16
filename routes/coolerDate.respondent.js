@@ -20,7 +20,6 @@ router.post("/add", async (req, res) => {
       dressing: req.body.dressing,
       boyfriend: req.body.boyfriend,
     });
-    console.log(newRespondent)
 
     // Add hoursTookToSubmit
     const responseMessage = await addHoursTookToSubmit(

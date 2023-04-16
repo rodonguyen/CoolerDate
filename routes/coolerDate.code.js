@@ -187,7 +187,7 @@ router.patch("/nullifyFirstAccessTime", async (req, res) => {
 
   try {
     const nullified = await nullifyFirstAccessTime(req.body.username, req.body.code)
-    console.log(nullified)
+    console.log('Nullified entry:', nullified)
     res.status(201).json(nullified);
   } catch (err) {
     res.status(400).json({ error: err.message }); 
@@ -205,7 +205,7 @@ router.patch("/patchProfile", async (req, res) => {
       },
       { profile: req.body.profile }
     ).then((res) => {
-      console.log(res)
+      console.log('Patched entry:', res)
       if (res === null) return { message: "Entry does not exist, do nothing" };
       return { message: "Patch new Profile successfully" };
     });
@@ -295,22 +295,5 @@ const nullifyFirstAccessTime = async (username, code) => {
     })
   return response
 };
-
-
-
-// function send(){
-//   const fullUrl = "http://localhost:3001/coolerDate/code/addFirstAccessTime"
-//   const entry = {
-//     username: 'rodonguyen', 
-//     code: 'newcode123'
-//   }
-
-//   axios.post(fullUrl, JSON.stringify(entry))
-//     .then((res) => {
-//       console.log(res)
-//       return res
-//     })
-//     .catch((err) => console.log(err));
-// }
 
 module.exports = router;
