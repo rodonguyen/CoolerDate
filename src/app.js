@@ -11,7 +11,6 @@ const swaggerJsdoc = require("swagger-jsdoc"),
 app.use(express.json());
 app.use(cors())
 
-
 const options = {
   definition: {
     openapi: "3.0.3",
@@ -32,11 +31,12 @@ const options = {
     },
     servers: [
       {url: "http://localhost:3001"},
-      {url: process.env.ONLINE_SERVER_URL}
+      {url: process.env.SERVER_URL}
     ],
   },
   apis: ["./routes/*.js"],
 };
+
 
 const specs = swaggerJsdoc(options);
 app.use(
