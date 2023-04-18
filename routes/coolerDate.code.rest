@@ -11,6 +11,18 @@ Content-Type: application/json
   "code": "cucbonggondangiu"
 }
 
+
+###
+
+POST http://localhost:3001/coolerdate/code/add
+Content-Type: application/json
+
+{
+  "username": "rodonguyen",
+  "code": "c5"
+}
+
+
 ###
 
 POST http://localhost:3001/coolerdate/code/check
@@ -18,7 +30,7 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "n1"
+  "code": "c1"
 }
 
 ###
