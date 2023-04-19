@@ -2,13 +2,13 @@
 
 ### A full-stack application built for Asking someone out for a date. 
 ### *Simpler, Easier and Even More Special Process!*
-### Make the person being asked feel valued. Just give the them a *customised, unique and exclusive* invitation code (one person per code) to access your profile, get to know you and response later. That code expires after 3 days since they first open it. 
+### Make the person being asked feel valued. Just give the them a *customised, unique and exclusive* invitation code (one person per code) to access your profile, let them read about you and response later. That code expires after 3 days since they first open it. 
 
 
 ### Read more about:
-- [Server](#server)
-- [Database Schema](#database-schema)
-- [Client](#client)
+1. [Server](#server)
+2. [Database Schema](#database-schema)
+3. [Client](#client)
 
 # Server
 
