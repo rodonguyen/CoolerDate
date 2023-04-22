@@ -76,12 +76,12 @@ router.post("/queryOne", getEntry, (req, res) => {
 
   if (res.found)
     res
-      .status(201)
+      .status(200)
       .json({ found: true, 
               entry: res.entry });
   else            
     res
-      .status(201)
+      .status(200)
       .json({
         found: false,
         request: req.body,
@@ -179,14 +179,6 @@ async function getEntry(req, res, next) {
     res.entry = entry;
   }
   next();
-}
-
-/** Check if username or code property is missing */
-function checkUsernameAndCodeProperty(req, res) {
-  if (!req.body.username || !req.body.code) {
-    return res.status(400).json({ message: "Missing property (`username` or `code`)." });
-  }
-  return req
 }
 
 // ***********************************************************

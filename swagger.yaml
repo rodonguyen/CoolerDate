@@ -284,7 +284,7 @@ paths:
                   type: string
                   example: "default"
       responses:
-        201:
+        200:
           description: "Send request successfully."
           content:
             application/json:
