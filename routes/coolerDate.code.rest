@@ -8,7 +8,8 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "code": "cucbonggondangiu"
+  "code": "hireme",
+  "profile": "job"
 }
 
 

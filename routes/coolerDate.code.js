@@ -20,38 +20,62 @@ const axios = require('axios');
  *       properties:
  *         username:
  *           type: string
- *           description: username
+ *           description: Each `username` is the unique identity of each user in the app
  *         code:
  *           type: string
- *           description: code
+ *           description: The `code` receiver uses to access a person's coolerdate page. Unique to each `username`.
  *         profile:
  *           type: string
- *           description: profile is used to link to profile schema
+ *           default: default
+ *           description: Each `profile` ID is linked to a profile content that user want to display for the associated `code`
  *         firstAccessTime:
  *           type: string
- *           description: time of the moment user first entering the code on app
+ *           description: The time of the moment user first entering the code on app
+ *         hoursTookToSubmit:
+ *           type: number
+ *           description: The number of hours the receiver took to submit since they first opened the code
  *       example:
  *         username: rodonguyen
- *         code: youaregorgous
- *         profile: goodboy
+ *         code: youaregorgeous
+ *         profile: default
  *         firstAccessTime: 2020-03-10T04:05:06.157Z
+ *         hoursTookToSubmit: 0.12
  *  
+ * 
  * tags:
  *   name: coolerDate.code
- *   description: The books managing API
+ *   description: "Managing (`username`, `code`) information"
  * /coolerDate/code/add:
  *   post:
- *     summary: Create a new code
+ *     summary: Create a new `code` for a `user`
  *     tags: [coolerDate.code]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/coolerDate.code'
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: rodonguyen
+ *               code:
+ *                 type: string
+ *                 example: youaregorgeous
+ *               profile:
+ *                 type: string
+ *                 example: default
  *     responses:
+ *       200:
+ *         description: The `code` exists for a `user`, do nothing 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Entry exists, do nothing.
  *       201:
- *         description: Successful operation
+ *         description: Successfully add a new `code` for a `user`
  *         content:
  *           application/json:
  *             schema:
@@ -61,45 +85,114 @@ const axios = require('axios');
  *                   example: rodonguyen
  *                 code:
  *                   type: string
- *                   example: youaregorgous
+ *                   example: youaregorgeous
  *                 profile:
  *                   type: string
- *                   example: neutral
+ *                   example: default
+ *                 firstAccessTime: 
+ *                   type: string
+ *                   example: 
+ *                 hoursTookToSubmit: 
+ *                   type: number
+ *                   example: -1
  *       400:
- *         description: Invalid input, missing required propertie(s)
+ *         description: Invalid input, missing required propertie(s) which is `code` in this case
  *         content:
  *           application/json:
  *             schema:
  *               properties:
- *                 username:
+ *                 error:
  *                   type: string
- *                   example: rodonguyen
- *                 profile:
- *                   type: string
- *                   example: neutral
- *
+ *                   example: "coolerdate_code validation failed: code: Path `code` is required."
+ * 
+ * 
+ * /coolerDate/code/check:
+ *   post:
+ *     summary: Check the validity of a `code` of a `user`
+ *     description: Check if a code is exist, unexpired, and unused. If the code is valid and does not have `firstAccessTime`, the server will assign `firstAccessTime` as the current time.
+ *     tags: [coolerDate.code]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 example: elonmusk
+ *               code: 
+ *                 type: string
+ *                 example: youaregorgeous
+ *     responses:
+ *       200:
+ *         description: Successfully check a `code` for a `user`. Code is invalid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 isValid:
+ *                   type: boolean
+ *                   example: false  
+ *       201:
+ *         description: Successfully check a `code` for a `user`. Code is valid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 isValid:
+ *                   type: boolean
+ *                   example: true
+ *                 entry:
+ *                   properties: 
+ *                       username: 
+ *                         type: string
+ *                         example: rodonguyen
+ *                       code: 
+ *                         type: string
+ *                         example: youaregorgeous
+ *                       profile: 
+ *                         type: string
+ *                         example: default
+ *                       firstAccessTime: 
+ *                         type: string
+ *                         example: 2020-03-10T04:05:06.157Z
+ *                       hoursTookToSubmit: 
+ *                         type: number
+ *                         example: -1
+ *       400:
+ *         description: Invalid input, missing required propertie(s) which is `code` in this case
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 isValid:
+ *                   type: boolean
+ *                   example: false
+ * 
+ * 
+ * 
  */
 
 
 
-// Finding an entry
-router.post("/queryOne", getEntry, (req, res) => {
-  console.log('/queryOne ===>', req.body);
-
-  if (res.found)
-    res
-      .status(201)
-      .json({ message: "Entry exists, do nothing", 
-              found: true, 
-              entry: res.entry });
-  else
-    res
-      .status(201)
-      .json({
-        message: "Entry does not exist",
-        found: false,
-        request: req.body,
-      });
+// Creating new coolerDate code
+router.post("/add", getEntry, async (req, res) => {
+  console.log('/code/add ===>', req.body);
+  
+  if (res.found) {
+    res.status(200).json({ message: "Entry exists, do nothing." });
+    return;
+  }
+  try {
+    const newCode = await Code.create({
+      username: req.body.username,
+      code: req.body.code,
+      profile: req.body.profile
+    });
+    res.status(201).json(newCode);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 
@@ -116,22 +209,23 @@ router.post("/check", getEntry, async (req, res) => {
 
   // Entry does not exist
   if (!res.found) {
-    return res.status(201).json({ isValid: false })
+    return res.status(200).json({ isValid: false })
   }
 
   // Check expiration status if the code has been accessed. 
-  // Return false if daysSinceFirstAccess > 7 days.
+  // Return false if daysSinceFirstAccess is older than [a number] days. 
+  // Note that [a number] can change. 
   if (res.entry.firstAccessTime) {
     const startTime = new Date(res.entry.firstAccessTime)
     const now = Date.now()
     const daysSinceFirstAccess = Math.abs((now - startTime.getTime())) / 3600 / 24 / 1000;
-    if (daysSinceFirstAccess > 3) return res.status(201).json({ isValid: false });
+    if (daysSinceFirstAccess > 3) return res.status(200).json({ isValid: false });
   }
 
   // Check if the code is used. Return false if hoursTookToSubmit is >= 0. 
   // FYI, default value is -1, which means unused.
   if (res.entry.hoursTookToSubmit !== -1) {
-    return res.status(201).json({ isValid: false });
+    return res.status(200).json({ isValid: false });
   }
 
   // Else, the code is valid
@@ -147,29 +241,26 @@ router.post("/check", getEntry, async (req, res) => {
 });
 
 
-// Creating new coolerDate code
-router.post("/add", getEntry, async (req, res) => {
-  console.log('/code/add ===>', req.body);
-  
-  // TODO: add middleman function/code to 
-  // add the entry ONLY IF the profile exist
+// Finding an entry
+router.post("/queryOne", getEntry, (req, res) => {
+  console.log('/queryOne ===>', req.body);
 
+  if (res.found)
+    res
+      .status(201)
+      .json({ message: "Entry exists, do nothing.", 
+              found: true, 
+              entry: res.entry });
+  else            
+    res
+      .status(201)
+      .json({
+        message: "Entry does not exist",
+        found: false,
+        request: req.body,
+      });  
+});      
 
-  if (res.found) {
-    res.status(201).json({ message: "Entry exists, do nothing" });
-    return;
-  }
-  try {
-    const newCode = await Code.create({
-      username: req.body.username,
-      code: req.body.code,
-      profile: req.body.profile
-    });
-    res.status(201).json(newCode);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
 
 router.patch("/addFirstAccessTime", async (req, res) => {
   console.log('/addFirstAccessTime ===>', req.body);
@@ -181,6 +272,7 @@ router.patch("/addFirstAccessTime", async (req, res) => {
     res.status(400).json({ error: err.message }); 
   }
 });
+
 
 router.patch("/nullifyFirstAccessTime", async (req, res) => {
   console.log('/nullifyFirstAccessTime ===>', req.body);
@@ -206,7 +298,7 @@ router.patch("/patchProfile", async (req, res) => {
       { profile: req.body.profile }
     ).then((res) => {
       console.log('Patched entry:', res)
-      if (res === null) return { message: "Entry does not exist, do nothing" };
+      if (res === null) return { message: "Entry does not exist, do nothing." };
       return { message: "Patch new Profile successfully" };
     });
     res.status(201).json(patchProfile);
@@ -220,12 +312,12 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
   console.log('/deleteOne ===>', req.body);
 
   if (!res.found) {
-    res.status(201).json({ message: "Entry does not exist, do nothing" });
+    res.status(201).json({ message: "Entry does not exist, do nothing." });
     return;
   }
   try {
     await res.entry.remove();
-    res.json({ message: "Deleted Entry", entry: res.entry });
+    res.json({ message: "Deleted Entry.", entry: res.entry });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -246,7 +338,7 @@ async function getEntry(req, res, next) {
       code: req.body.code,
     });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(400).json({ message: err.message });
   }
 
   // console.log(entry)

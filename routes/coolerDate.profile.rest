@@ -23,12 +23,14 @@ Content-Type: application/json
 
 {
   "username": "rodonguyen",
-  "profile": "goodboy99999",
+  "profile": "job",
   "content": [
-    "Who am I? I'm Rodo. I'm also a software engineer / QUT graduate.",
-    "What do I like? I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, working-out, deep conversation, animals and plants, reading books.",
-    "How am I like? I'm 1.7m, 60kg, Asian born and raised, 5.5+in, quite introvert.",
-    "Feel free to view other stuff in my website and you can alway comeback here later with the exact link."
+    "Hi 👋🏽, my name is Rodo.",
+    "If you're seeing this, that means I want to join your company as a software engineer! This is just a walkthrough of my application, you can read the rest in my resume (rodonguyen.dev/resume)",
+    "So, this is CoolerDate: A unique full-stack app built to make “Asking someone out for a date” simpler and even more special.",
+    "Each user can create a customised & exclusive code to give to any person, who you're attracted to, to ask them out. If they agree, they will fill the form below with their info and their response will appear in the MongoDB soon enough. Simple as that.",
+    "I applied MERN architecture (MongoDB, ExpressJS, React, NodeJS), designed suitable database schemas, implemented multi-step forms and a multitude of API endpoints, and utilised React Hooks (e.g., useMemo), all of which have broadened my experience in Full-stack development, System Design, and Database Modeling. Furthermore, I fully automated server testing process using Chai framework due to high level of complexity.",
+    "View its codebase here: https://github.com/rodonguyen/CoolerDate"
   ]
 }
 

@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: "CoolerDate: API Documentation"
+  description: "CoolerDate API Documentation..."
+  contact:
+    email: rodonguyendd@gmail.com
+  license:
+    name: "MIT License"
+    url: "https://spdx.org/licenses/MIT.html"
+  version: 1.0.1
+externalDocs:
+  description: Find out more about rodonguyen
+  url: http://rodonguyen.dev
+servers:
+  - url: "http://localhost:3001"
+  - url: "https://coolerdate-production.up.railway.app"
+
+
+components:
+  schemas:
+    coolerdate.code:
+      type: object
+      required:
+        - username
+        - code
+        - profile
+      properties:
+        username:
+          type: string
+          description: Each `username` is the unique identity of each user in the app
+        code:
+          type: string
+          description: The `code` receiver uses to access a person's coolerdate page. Unique to each `username`.
+        profile:
+          type: string
+          default: default
+          description: Each `profile` ID is linked to a profile content that user want to display for the associated `code`
+        firstAccessTime:
+          type: string
+          description: The time of the moment user first entering the code on app
+        hoursTookToSubmit:
+          type: number
+          description: The number of hours the receiver took to submit since they first opened the code
+      example:
+        username: rodonguyen
+        code: youaregorgeous
+        profile: default
+        firstAccessTime: 2020-03-10T04:05:06.157Z
+        hoursTookToSubmit: 0.12
+ 
+tags:
+  - name: /coolerdate/code
+    description: "Managing (`username`, `code`) information"
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+      
+      
+paths:
+  /coolerDate/code/add:
+    post:
+      summary: Create a new `code` for a `user`
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: rodonguyen
+                code:
+                  type: string
+                  example: youaregorgeous
+                profile:
+                  type: string
+                  example: default
+      responses:
+        200:
+          description: The `code` exists for a `user`, do nothing 
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Entry exists, do nothing.
+        201:
+          description: Successfully add a new `code` for a `user`
+          content:
+            application/json:
+              schema:
+                properties:
+                  username:
+                    type: string
+                    example: rodonguyen
+                  code:
+                    type: string
+                    example: youaregorgeous
+                  profile:
+                    type: string
+                    example: default
+                  firstAccessTime: 
+                    type: string
+                    example: 
+                  hoursTookToSubmit: 
+                    type: number
+                    example: -1
+        400:
+          description: Invalid input, missing required propertie(s) which is `code` in this case
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: "coolerdate_code validation failed: code: Path `code` is required."
+  /coolerDate/code/check:
+    post:
+      summary: Check the validity of a `code` of a `user`
+      description: Check if a code is exist, unexpired, and unused. If the code is valid and does not have `firstAccessTime`, the server will assign `firstAccessTime` as the current time.
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: elonmusk
+                code: 
+                  type: string
+                  example: youaregorgeous
+      responses:
+        200:
+          description: Successfully check a `code` for a `user`. Code is invalid.
+          content:
+            application/json:
+              schema:
+                properties:
+                  isValid:
+                    type: boolean
+                    example: false  
+        201:
+          description: Successfully check a `code` for a `user`. Code is valid.
+          content:
+            application/json:
+              schema:
+                properties:
+                  isValid:
+                    type: boolean
+                    example: true
+                  entry:
+                    properties: 
+                        username: 
+                          type: string
+                          example: rodonguyen
+                        code: 
+                          type: string
+                          example: youaregorgeous
+                        profile: 
+                          type: string
+                          example: default
+                        firstAccessTime: 
+                          type: string
+                          example: 2020-03-10T04:05:06.157Z
+                        hoursTookToSubmit: 
+                          type: number
+                          example: -1
+        400:
+          description: Invalid input, missing required propertie(s) which is `code` in this case
+          content:
+            application/json:
+              schema:
+                properties:
+                  isValid:
+                    type: boolean
+                    example: false
+
+
+
