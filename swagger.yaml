@@ -1,7 +1,8 @@
 openapi: 3.0.3
 info:
   title: "CoolerDate: API Documentation"
-  description: "CoolerDate API Documentation..."
+  description: |-
+    Codebase and further notes about the database schemas: [github.com/rodonguyen/CoolerDate](https://github.com/rodonguyen/CoolerDate)
   contact:
     email: rodonguyendd@gmail.com
   license:
@@ -53,8 +54,17 @@ tags:
     description: "Managing (`username`, `code`) information"
     externalDocs:
       description: Find out more
-      url: http://swagger.io
-      
+      url: https://github.com/rodonguyen/CoolerDate
+  - name: /coolerdate/profile
+    description: "Managing `profile` information"
+    externalDocs:
+      description: Find out more
+      url: https://github.com/rodonguyen/CoolerDate
+  - name: /coolerdate/respondent
+    description: "Managing `respondent` information"
+    externalDocs:
+      description: Find out more
+      url: https://github.com/rodonguyen/CoolerDate
       
 paths:
   /coolerDate/code/add:
