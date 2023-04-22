@@ -69,7 +69,7 @@ paths:
               properties:
                 username:
                   type: string
-                  example: rodonguyen
+                  example: elonmusk
                 code:
                   type: string
                   example: youaregorgeous
@@ -154,21 +154,21 @@ paths:
                     example: true
                   entry:
                     properties: 
-                        username: 
-                          type: string
-                          example: rodonguyen
-                        code: 
-                          type: string
-                          example: youaregorgeous
-                        profile: 
-                          type: string
-                          example: default
-                        firstAccessTime: 
-                          type: string
-                          example: 2020-03-10T04:05:06.157Z
-                        hoursTookToSubmit: 
-                          type: number
-                          example: -1
+                      username: 
+                        type: string
+                        example: rodonguyen
+                      code: 
+                        type: string
+                        example: youaregorgeous
+                      profile: 
+                        type: string
+                        example: default
+                      firstAccessTime: 
+                        type: string
+                        example: 2020-03-10T04:05:06.157Z
+                      hoursTookToSubmit: 
+                        type: number
+                        example: -1
         400:
           description: Invalid input, missing required propertie(s) which is `code` in this case
           content:
@@ -178,6 +178,138 @@ paths:
                   isValid:
                     type: boolean
                     example: false
-
+  /coolerDate/code/nullifyFirstAccessTime:
+    patch:
+      summary: "Nullify `firstAccessTime` of an entry if it exists."
+      description: ...
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: elonmusk
+                code: 
+                  type: string
+                  example: youaregorgeous
+      responses:
+        201:
+          description: Send request successfully.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      message:
+                        type: string
+                        example: "Nullify firstAccessTime successfully."  
+                  - properties:
+                      message:
+                        type: string
+                        example: "Entry does not exist, do nothing."  
+        400:
+          description: Bad request due to missing properties.
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Missing property (`username` or `code`). " 
+  /coolerDate/code/patchProfile:
+    patch:
+      summary: "Update `profile` of an entry if it exists."
+      description: ...
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: "elonmusk"
+                code: 
+                  type: string
+                  example: "youaregorgeous"
+                profile:
+                  type: string
+                  example: "default"
+      responses:
+        201:
+          description: "Send request successfully."
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      message:
+                        type: string
+                        example: "Patch `profile` successfully."
+                  - properties:
+                      message:
+                        type: string
+                        example: "Entry does not exist, do nothing." 
+        400:
+          description: "Bad request..."
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error..." 
+  /coolerDate/code/queryOne:
+    post:
+      summary: "Finding an entry with `username` and `code`."
+      description: ...
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: "elonmusk"
+                code: 
+                  type: string
+                  example: "youaregorgeous"
+                profile:
+                  type: string
+                  example: "default"
+      responses:
+        201:
+          description: "Send request successfully."
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      found:
+                        type: boolean
+                        example: true
+                      entry:
+                        $ref: '#/components/schemas/coolerdate.code'
+                  - properties:
+                      found:
+                        type: boolean
+                        example: false
+                      request:
+                        $ref: '#/components/schemas/coolerdate.code'
+        400:
+          description: "Bad request..."
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error..." 
 
 

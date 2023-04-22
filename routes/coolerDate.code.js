@@ -70,21 +70,19 @@ router.post("/check", getEntry, async (req, res) => {
 });
 
 
-// Finding an entry
+//** Finding an entry */ 
 router.post("/queryOne", getEntry, (req, res) => {
   console.log('/queryOne ===>', req.body);
 
   if (res.found)
     res
       .status(201)
-      .json({ message: "Entry exists, do nothing.", 
-              found: true, 
+      .json({ found: true, 
               entry: res.entry });
   else            
     res
       .status(201)
       .json({
-        message: "Entry does not exist",
         found: false,
         request: req.body,
       });  
@@ -103,19 +101,18 @@ router.patch("/addFirstAccessTime", async (req, res) => {
 });
 
 
-router.patch("/nullifyFirstAccessTime", async (req, res) => {
+router.patch("/nullifyFirstAccessTime", getEntry, async (req, res) => {
   console.log('/nullifyFirstAccessTime ===>', req.body);
 
   try {
     const nullified = await nullifyFirstAccessTime(req.body.username, req.body.code)
-    console.log('Nullified entry:', nullified)
     res.status(201).json(nullified);
   } catch (err) {
     res.status(400).json({ error: err.message }); 
   }
 });
 
-router.patch("/patchProfile", async (req, res) => {
+router.patch("/patchProfile",  async (req, res) => {
   console.log('/patchProfile ===>', req.body);
 
   try {
@@ -126,10 +123,10 @@ router.patch("/patchProfile", async (req, res) => {
       },
       { profile: req.body.profile }
     ).then((res) => {
-      console.log('Patched entry:', res)
       if (res === null) return { message: "Entry does not exist, do nothing." };
-      return { message: "Patch new Profile successfully" };
+      return { message: "Patch `profile` successfully." };
     });
+
     res.status(201).json(patchProfile);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -159,6 +156,10 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
 
 /** Return the entry's data if it exists in the database already */
 async function getEntry(req, res, next) {
+  if (req.body.username || req.body.code) {
+    return res.status(400).json({ message: "Missing property (`username` or `code`)." });
+  }
+
   let entry;
 
   try {
@@ -180,6 +181,13 @@ async function getEntry(req, res, next) {
   next();
 }
 
+/** Check if username or code property is missing */
+function checkUsernameAndCodeProperty(req, res) {
+  if (!req.body.username || !req.body.code) {
+    return res.status(400).json({ message: "Missing property (`username` or `code`)." });
+  }
+  return req
+}
 
 // ***********************************************************
 // **               AUXILIARY FUNCTIONS                     **
@@ -195,9 +203,9 @@ const addFirstAccessTime = async (username, code) => {
   ).then((res) => {
     if (res === null)
       return {
-        message: "addFirstAccessTime --> Entry does not exist, do nothing",
+        message: "Entry does not exist, do nothing.",
       };
-    return { message: "Add firstAccessTime successfully" };
+    return { message: "Add firstAccessTime successfully." };
   });
 
   return response;
@@ -211,8 +219,8 @@ const nullifyFirstAccessTime = async (username, code) => {
     },
     { firstAccessTime: null })
     .then((res) => {
-      if (res === null) return { message: "nullifyFirstAccessTime --> Entry does not exist, do nothing"};
-      return {message: 'Nullify firstAccessTime successfully'}
+      if (res === null) return { message: "Entry does not exist, do nothing."};
+      return {message: 'Nullify firstAccessTime successfully.'}
     })
   return response
 };

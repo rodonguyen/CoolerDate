@@ -6,8 +6,8 @@ const Profile = require("../models/coolerDate.profile");
 router.post('/find', getEntry, (req, res) => {
   console.log('/find ===>', req.body);
 
-  if (res.found)  res.status(201).json({message: "Entry exists", found: true, entry: res.entry})
-  else            res.status(201).json({message: "Entry does not exist", found: false, request: req.body})
+  if (res.found)  res.status(201).json({message: 'Entry exists.', found: true, entry: res.entry})
+  else            res.status(201).json({message: 'Entry does not exist.', found: false, request: req.body})
 })
 
 
@@ -24,9 +24,9 @@ router.post("/add", getEntry, async (req, res) => {
       return
     }
     // Else, update the content of this (username, profile)
-    console.log('Update the content')
+    console.log('Update the content.')
     const updated = updateContent(req.body.username, req.body.profile, req.body.content)
-    res.status(201).json({...updated, message: 'Updated the content'})
+    res.status(201).json({...updated, message: 'Updated the content.'})
     return
   }
 
@@ -68,12 +68,12 @@ router.delete('/deleteOne', getEntry, async (req, res) => {
   console.log('/deleteOne ===>', req.body);
 
   if (!res.found) {
-    res.status(201).json({message: "Entry does not exist, do nothing"})
+    res.status(201).json({message: "Entry does not exist, do nothing."})
     return
   }
   try {
     await res.entry.remove();
-    res.json({ message: 'Deleted Entry', entry: res.entry })
+    res.json({ message: 'Deleted Entry.', entry: res.entry })
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
