@@ -127,6 +127,10 @@ tags:
       url: https://github.com/rodonguyen/CoolerDate
       
 paths:
+  
+  # ####################################
+  # ##              CODE              ##
+  # ####################################
   /coolerDate/code/add:
     post:
       summary: Create a new `code` for a `username`
@@ -430,7 +434,11 @@ paths:
                     type: string
                     example: "Error message..."
                     
-                    
+
+  # ####################################
+  # ##             PROFILE            ##
+  # ####################################
+
   /coolerDate/profile/add:
     post:
       summary: Create a new profile entry.
@@ -475,7 +483,7 @@ paths:
                   error:
                     type: string
                     example: "Error message..."
-  /findOne:
+  /coolerDate/profile/findOne:
     post:
       summary: Get content of an entry.
       description: Request body must have `username` and `profile` properties
@@ -522,7 +530,6 @@ paths:
                           profile:
                             type: string
                             example: youaregorgeous
-                        
         400:
           description: Invalid request.
           content:
@@ -532,9 +539,47 @@ paths:
                   error: 
                     type: string
                     example: "Error message..."
-                  
-                  
-                  
-                  
-                  
-                  
+  /coolerDate/profile/deleteOne:
+    post:
+      summary: Delete an entry.
+      description: Request body must have `username` and `profile` properties
+      tags: [/coolerdate/profile]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: elonmusk
+                profile:
+                  type: string
+                  example: youaregorgeous
+              required:
+                - username
+                - profile
+      responses:
+        201:
+          description: Successfully deleted the entry for the specified (`username`, `profile`) or entry does not exist so do nothing.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      message:
+                        type: string
+                        example: Deleted Entry.
+                  - properties:
+                      message:
+                        type: string
+                        example: "Entry does not exist, do nothing."
+        400:
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: 
+                    type: string
+                    example: "Error message..."

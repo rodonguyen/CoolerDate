@@ -45,27 +45,27 @@ router.post("/add", getEntry, async (req, res) => {
 });
 
 
-// Updating One
-router.post("/updateContent", async (req, res) => {
-  console.log('/updateContent ===>', req.body);
+// // Updating One
+// router.post("/updateContent", async (req, res) => {
+//   console.log('/updateContent ===>', req.body);
 
-  try {
-    const addedTimeEntry = await Profile.findOneAndUpdate(
-      {
-        username: req.body.username,
-        profile: req.body.profile        
-      },
-      { content: req.body.content }
-    );
-    res.status(201).json(addedTimeEntry);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+//   try {
+//     const addedTimeEntry = await Profile.findOneAndUpdate(
+//       {
+//         username: req.body.username,
+//         profile: req.body.profile        
+//       },
+//       { content: req.body.content }
+//     );
+//     res.status(201).json(addedTimeEntry);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// });
 
 
 // Deleting one
-router.delete('/deleteOne', getEntry, async (req, res) => {
+router.post('/deleteOne', getEntry, async (req, res) => {
   console.log('/deleteOne ===>', req.body);
 
   if (!res.found) {
@@ -74,9 +74,9 @@ router.delete('/deleteOne', getEntry, async (req, res) => {
   }
   try {
     await res.entry.remove();
-    res.json({ message: 'Deleted Entry.', entry: res.entry })
+    res.status(201).json({ message: 'Deleted Entry.' })
   } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(400).json({ message: err.message })
   }
 })
 
