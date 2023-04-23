@@ -140,12 +140,13 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
   if (!res.found) {
     res.status(201).json({ message: "Entry does not exist, do nothing." });
     return;
-  }
+  } 
+  
   try {
     await res.entry.remove();
-    res.json({ message: "Deleted Entry.", entry: res.entry });
+    res.json({ message: "Deleted Entry."});
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 

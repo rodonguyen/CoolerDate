@@ -28,26 +28,86 @@ components:
       properties:
         username:
           type: string
-          description: Each `username` is the unique identity of each user in the app
+          description: Each `username` is the unique identity of each user in the app.
         code:
           type: string
           description: The `code` receiver uses to access a person's coolerdate page. Unique to each `username`.
         profile:
           type: string
           default: default
-          description: Each `profile` ID is linked to a profile content that user want to display for the associated `code`
+          description: Each (`username`, `profile`) is linked to a profile content that a user want to display for the associated `code`.
         firstAccessTime:
           type: string
-          description: The time of the moment user first entering the code on app
+          description: The time of the moment user first entering the code on app.
         hoursTookToSubmit:
           type: number
-          description: The number of hours the receiver took to submit since they first opened the code
+          description: The number of hours the receiver took to submit since they first opened the code.
       example:
-        username: rodonguyen
+        username: elonmusk
         code: youaregorgeous
         profile: default
         firstAccessTime: 2020-03-10T04:05:06.157Z
         hoursTookToSubmit: 0.12
+    coolerdate.profile:
+      type: object
+      required:
+        - username
+        - profile
+        - content
+      properties:
+        username:
+          type: string
+          description: Each `username` is the unique identity of each user in the app.
+        profile:
+          type: string
+          description: Each (`username`, `profile`) is linked to a profile content that a user want to display for the associated `code`.
+        content:
+          type: array
+          description: An array of paragraphs used for introduction.
+          items: 
+            type: string
+      example:
+        username: elonmusk
+        profile: default
+        content: ['paragraph1', 'paragraph2', 'paragraph3']
+    coolerdate.respondent:
+      type: object
+      required:
+        - username
+        - code
+        - name
+        - contact
+        - bio
+      properties:
+        username:
+          type: string
+          description: Each `username` is the unique identity of each user in the app.
+        code:
+          type: string
+          description: The `code` respondent uses to access a person's coolerdate page. Unique to each `username`.
+        name:
+          type: array
+          description: An array of paragraphs used for introduction.
+          items: 
+            type: string
+        contact:
+          type: string
+          description: can be phone number or email.
+        bio:
+          type: string
+          description: a self-description of the respondent.
+        ifact:
+          type: string
+          description: some interesting facts about the respondent.
+        place:
+          type: string
+          description: a place the respondent wants for their first date.
+        dressing:
+          type: string
+          description: a dressing style the respondent wants from the user.
+        boyfriend:
+          type: string
+          description: the respondent's ideal boyfriend description.
  
 tags:
   - name: /coolerdate/code
@@ -69,7 +129,7 @@ tags:
 paths:
   /coolerDate/code/add:
     post:
-      summary: Create a new `code` for a `user`
+      summary: Create a new `code` for a `username`
       tags: [/coolerdate/code]
       requestBody:
         required: true
@@ -86,9 +146,12 @@ paths:
                 profile:
                   type: string
                   example: default
+              required:
+                - username
+                - code
       responses:
         200:
-          description: The `code` exists for a `user`, do nothing 
+          description: The `code` exists for a `username`, do nothing 
           content:
             application/json:
               schema:
@@ -97,7 +160,7 @@ paths:
                     type: string
                     example: Entry exists, do nothing.
         201:
-          description: Successfully add a new `code` for a `user`
+          description: Successfully add a new `code` for a `username`
           content:
             application/json:
               schema:
@@ -128,7 +191,7 @@ paths:
                     example: "coolerdate_code validation failed: code: Path `code` is required."
   /coolerDate/code/check:
     post:
-      summary: Check the validity of a `code` of a `user`
+      summary: Check the validity of a `code` of a `username`
       description: Check if a code is exist, unexpired, and unused. If the code is valid and does not have `firstAccessTime`, the server will assign `firstAccessTime` as the current time.
       tags: [/coolerdate/code]
       requestBody:
@@ -143,9 +206,12 @@ paths:
                 code: 
                   type: string
                   example: youaregorgeous
+              required:
+                - username
+                - code
       responses:
         200:
-          description: Successfully check a `code` for a `user`. Code is invalid.
+          description: Successfully check a `code` for a `username`. Code is invalid.
           content:
             application/json:
               schema:
@@ -154,7 +220,7 @@ paths:
                     type: boolean
                     example: false  
         201:
-          description: Successfully check a `code` for a `user`. Code is valid.
+          description: Successfully check a `code` for a `username`. Code is valid.
           content:
             application/json:
               schema:
@@ -205,6 +271,9 @@ paths:
                 code: 
                   type: string
                   example: youaregorgeous
+              required:
+                - username
+                - code
       responses:
         201:
           description: Send request successfully.
@@ -246,9 +315,9 @@ paths:
                 code: 
                   type: string
                   example: "youaregorgeous"
-                profile:
-                  type: string
-                  example: "default"
+              required:
+                - username
+                - code
       responses:
         201:
           description: "Send request successfully."
@@ -290,12 +359,12 @@ paths:
                 code: 
                   type: string
                   example: "youaregorgeous"
-                profile:
-                  type: string
-                  example: "default"
+              required:
+                - username
+                - code
       responses:
         200:
-          description: "Send request successfully."
+          description: "Send query request successfully."
           content:
             application/json:
               schema:
@@ -313,13 +382,159 @@ paths:
                       request:
                         $ref: '#/components/schemas/coolerdate.code'
         400:
-          description: "Bad request..."
+          description: "Error..."
           content:
             application/json:
               schema:
                 properties:
                   message:
                     type: string
-                    example: "Error..." 
-
-
+                    example: "Error message..." 
+  /coolerDate/code/deleteOne:
+    post:
+      summary: "Delete an entry with `username` and `code`."
+      description: ...
+      tags: [/coolerdate/code]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: "elonmusk"
+                code: 
+                  type: string
+                  example: "youaregorgeous"
+              required:
+                - username
+                - code
+      responses:
+        201:
+          description: "Send delete request successfully."
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Deleted entry." 
+        400:
+          description: "Error..."
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: "Error message..."
+                    
+                    
+  /coolerDate/profile/add:
+    post:
+      summary: Create a new profile entry.
+      description: Request body must have `username`, `profile`, and `content` properties.
+      tags: [/coolerdate/profile]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coolerdate.profile'
+      responses:
+        200:
+          description: The `code` exists for a `username`, do nothing 
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    example: Entry already exists, do nothing.
+        201:
+          description: Successfully add a new `code` for a `username`
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      message:
+                        type: string
+                        example: "Updated the content."
+                  - properties:
+                      message:
+                        type: string
+                        example: "Add new `profile` entry."
+        400:
+          description: Error...
+          content:
+            application/json:
+              schema:
+                properties:
+                  error:
+                    type: string
+                    example: "Error message..."
+  /findOne:
+    post:
+      summary: Get content of an entry.
+      description: Request body must have `username` and `profile` properties
+      tags: [/coolerdate/profile]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: elonmusk
+                profile:
+                  type: string
+                  example: youaregorgeous
+              required:
+                - username
+                - profile
+      responses:
+        201:
+          description: Successfully retrieved the entry content for the specified (`username`, `profile`).
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - properties:
+                      found:
+                        type: boolean
+                        example: true
+                        description: Indicates whether the entry was found.
+                      entry:
+                        $ref: '#/components/schemas/coolerdate.profile'
+                  - properties:
+                      found:
+                        type: boolean
+                        example: false
+                        description: Indicates whether the entry was found.
+                      request:
+                        properties:
+                          username:
+                            type: string
+                            example: elonmusk
+                          profile:
+                            type: string
+                            example: youaregorgeous
+                        
+        400:
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: 
+                    type: string
+                    example: "Error message..."
+                  
+                  
+                  
+                  
+                  
+                  

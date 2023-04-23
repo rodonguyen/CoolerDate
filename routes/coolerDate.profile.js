@@ -3,11 +3,11 @@ const router = express.Router();
 const Profile = require("../models/coolerDate.profile");
 
 // Getting content of an entry
-router.post('/find', getEntry, (req, res) => {
-  console.log('/find ===>', req.body);
+router.post('/findOne', getEntry, (req, res) => {
+  console.log('/findOne ===>', req.body);
 
-  if (res.found)  res.status(201).json({message: 'Entry exists.', found: true, entry: res.entry})
-  else            res.status(201).json({message: 'Entry does not exist.', found: false, request: req.body})
+  if (res.found)  res.status(201).json({ found: true, entry: res.entry})
+  else            res.status(201).json({ found: false, request: req.body})
 })
 
 
@@ -20,24 +20,25 @@ router.post("/add", getEntry, async (req, res) => {
 
     // If content are identical, do nothing
     if (res.entry.content.toString() === req.body.content.toString()) {
-      res.status(201).json({message: 'Entry already exists, do nothing.'});
+      res.status(200).json({ message: 'Entry already exists, do nothing.'});
       return
     }
+
     // Else, update the content of this (username, profile)
     console.log('Update the content.')
-    const updated = updateContent(req.body.username, req.body.profile, req.body.content)
-    res.status(201).json({...updated, message: 'Updated the content.'})
+    await updateContent(req.body.username, req.body.profile, req.body.content)
+    res.status(201).json({ message: 'Updated the content.'})
     return
   }
 
   // if entry does not exist, add it
   try {
-    const newProfile = await Profile.create({
+    await Profile.create({
       username: req.body.username,
       profile: req.body.profile,
       content: req.body.content
     });
-    res.status(201).json(newProfile);
+    res.status(201).json({ message: 'Add new `profile` entry.'});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
