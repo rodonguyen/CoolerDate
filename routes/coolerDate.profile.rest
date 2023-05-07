@@ -12,7 +12,7 @@ Content-Type: application/json
     "What do I like? - I like coding & technology, travelling, outdoor activities: running, hiking, Vietnamese street coffee-ing, Asian food, bubble tea, films, working-out, deep conversation, animals and plants, reading books.",
     "What do I like to do with my girlfriend besides what I already like? - Spending quality time together of course, watching films in bed, hugging and cuddling, lying under the sky, travelling, hiking, being alone together, massaging my girlfriend, (I also don't mind) kissing in public.",
     "How am I like? - I'm 1.7m, 60kg, Asian born and raised, introvert but also extremely extrovert with the right people.",
-    "Feel free to view other things in my website, you can alway comeback here with the exact link."
+    "Feel free to view other things on my website, you can always comeback here with the exact link."
   ]
 }
 

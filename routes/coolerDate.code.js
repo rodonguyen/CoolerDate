@@ -157,7 +157,7 @@ router.delete("/deleteOne", getEntry, async (req, res) => {
 
 /** Return the entry's data if it exists in the database already */
 async function getEntry(req, res, next) {
-  if (req.body.username || req.body.code) {
+  if (!req.body.username || !req.body.code) {
     return res.status(400).json({ message: "Missing property (`username` or `code`)." });
   }
 
