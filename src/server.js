@@ -26,7 +26,7 @@ db.useDb("coolerdate");
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database\n~~~"));
 
-app.listen(port, () => console.log("~~~\nServer Started"));
+app.listen(port, () => console.log(`~~~\nServer started. Running in port ${port}.`));
 
 
 
