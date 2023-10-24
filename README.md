@@ -41,25 +41,21 @@ Once the server is up and running (by entering `npm run dev`), interactive Swagg
 
 ## 0. The database schema itself
 
-![Database schema](public/DBschema.png)
+![Database schema](public/CoolerDate.png)
 
-To improve: 
-- remove `username` in `profile`. 
-- aggregate unrequired response sections to an array, giving room for flexible, customised questions form.
+## 1. Users + Codes
+Each user can create their own customised `code`s to share.
 
-## 1. Username + Code 
-Each user has a `username` and they can create their own customised `code`s to give out.
+Together, `(userId, Codes.id)` must be unique in the database. Each `(userId, Codes.id)` can be linked to a desired **`Profiles.id`** and its associated **`Respondent`**. 
 
-Together, `(username, code)` must be unique in the database. Each`(username, code)` can be linked to a desired **`profile`** and its associated **`respondent`** (if available). 
-
-## 2. Profile
-The `profile` can be linked to 1 or more `(username, code)`. This gives users the freedom to assign a suitable profile bio fitting each receiver (to the best of the giver's opinion). For example, this profile bio can be for long-term relationship and may present more traits that attract such relationships, and a diffrent bio can be for one-night stand with *bolder* introduction. 
+## 2. Profiles
+The `profile` can be linked to 1 or more `(userId, Codes.id)`. This gives users the freedom to assign a suitable profile bio fitting each receiver (to the best of the giver's opinion). For example, this profile bio can be for long-term relationship and may present more traits that attract such relationships, and a diffrent bio can be for one-night stand with *bolder* introduction. 
 
 The receiver is who receives the code.
 
 
 ## 3. Respondent
-This stores response from receiver if they decided to give response to each `(username, code)`.
+This stores response from receiver if they decided to give response to each `(userId, Codes.id)`.
 
 
 
