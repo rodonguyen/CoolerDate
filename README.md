@@ -1,8 +1,8 @@
-# CoolerDate
+# CoolerSurvey
 
-### A full-stack application built for Asking someone out for a date. 
+### A full-stack application built for doing surveys and allows customised content according to pre-defined access codes.
 ### *Simpler, Easier and Even More Special Process!*
-### Make the person being asked feel valued. Just give the them a *customised, unique and exclusive* invitation code (one person per code) to access your profile, let them read about you and response later. That code expires after 3 days since they first open it. 
+### Make the person being asked feel valued. Just give them a *customised, unique and exclusive* invitation code (one person per code) to access the survey.
 
 
 ### Read more about:
