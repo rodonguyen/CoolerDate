@@ -9,7 +9,7 @@ const yaml = require("yamljs");
 const swaggerDoc = yaml.load("./swagger.yaml");
   
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 app.use(
   "/coolerdate/docs",

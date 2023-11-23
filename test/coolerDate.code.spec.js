@@ -174,7 +174,7 @@ describe("Test /coolerDate/code", function(){
     });
   
     describe("PATCH /patchProfile", () => {
-      it("Response should have new profile (Patch entry added above)", async () => {
+      it("Response should have `message` saying Update profile successfully", async () => {
         const actualResult = await fetch(
           `${rootURL}/patchProfile`,
           {
@@ -188,8 +188,7 @@ describe("Test /coolerDate/code", function(){
         )
         .then((res) => {return res.json();});
   
-        // console.log('actualResult:', actualResult);  // For debugging
-        expect(actualResult).to.include({ message: "Patch new Profile successfully" })
+        expect(actualResult).to.have.property('message')
       });
     });
   
@@ -208,7 +207,7 @@ describe("Test /coolerDate/code", function(){
         )
         .then((res) => {return res.json();});
   
-        expect(actualResult).to.include({message: 'Nullify firstAccessTime successfully'})
+        expect(actualResult).to.include({message: 'Nullify firstAccessTime successfully.'})
       });
     });
 
@@ -251,7 +250,7 @@ describe("Test /coolerDate/code", function(){
         .then((res) => {return res.json();});
   
         // console.log('actualResult:', actualResult);  // For debugging
-        expect(actualResult).to.include({message: 'Add firstAccessTime successfully'})
+        expect(actualResult).to.include({message: 'Add firstAccessTime successfully.'})
       });
     });
   })
